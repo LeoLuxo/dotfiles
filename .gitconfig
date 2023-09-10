@@ -1,0 +1,19 @@
+[user]
+	email = leo@gamboa.eu
+	name = LeoLuxo
+[init]
+	defaultBranch = main
+[safe]
+	directory = /
+ 
+# Force using the CMD credentials prompt instead of a window
+[credential]
+	modalprompt = false
+
+# Enforce SSH
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[url "ssh://git@gitlab.com/"]
+	insteadOf = https://gitlab.com/
+[url "ssh://git@bitbucket.org/"]
+	insteadOf = https://bitbucket.org/
