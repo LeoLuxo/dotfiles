@@ -26,6 +26,11 @@ LS_COLORS+=':no=38;5;248'
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
 
+# [WSL] Sets ~w as windows user home
+hash -d w=/mnt/c/Users/Hydra
+hash -d c=/mnt/c/
+hash -d d=/mnt/d/
+
 # Custom aliases
 
 alias explorer="explorer.exe"
