@@ -5,6 +5,10 @@
 	defaultBranch = main
 [safe]
 	directory = /
+
+# Don't hide the .git directory on windows
+[core]
+	hideDotFiles = false
  
 # Force using the CMD credentials prompt instead of a window
 [credential]
