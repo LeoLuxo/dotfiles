@@ -17,6 +17,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 ### User configuration
 
+# Set up dotfiles
+export $DOTFILES_REPO="$HOME/.dotfiles"
+alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
+
 # Set default text editor
 export VISUAL=nano
 export EDITOR="$VISUAL"
@@ -41,7 +45,6 @@ zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 #hash -d d="/mnt/d/"
 
 # Custom aliases
-
 alias explorer="explorer.exe"
 alias py="python3"
 alias graph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
