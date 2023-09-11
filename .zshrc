@@ -18,7 +18,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 ### User configuration
 
 # Set up dotfiles
-export $DOTFILES_REPO="$HOME/.dotfiles"
+export DOTFILES_REPO="$HOME/.dotfiles"
 alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
 
 # Set default text editor
