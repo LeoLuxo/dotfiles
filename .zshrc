@@ -25,11 +25,13 @@ LS_COLORS+=':no=38;5;248'
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
+# [WSL] Get windows username
+WINDOWS_USER=$(/mnt/c/Windows/System32/cmd.exe /c 'echo %USERNAME%' | sed -e 's/\r//g') > /dev/null 2>&1
 
 # [WSL] Sets ~w as windows user home
-hash -d w=/mnt/c/Users/Hydra
-hash -d c=/mnt/c/
-hash -d d=/mnt/d/
+hash -d w="/mnt/c/Users/$WINDOWS_USER"
+hash -d c="/mnt/c/"
+hash -d d="/mnt/d/"
 
 # Custom aliases
 
