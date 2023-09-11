@@ -5,6 +5,12 @@
 	defaultBranch = main
 [safe]
 	directory = /
+
+[core]
+	# Don't hide the .git directory on windows
+	hideDotFiles = false
+	# Set the text editor
+	editor = "nano"
  
 # Force using the CMD credentials prompt instead of a window
 [credential]

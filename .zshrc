@@ -15,8 +15,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 
 
-# User configuration
+### User configuration
 
+# Set default text editor
+export VISUAL=nano
+export EDITOR="$VISUAL"
 
 # Sets the ls color theme
 export LS_COLORS='fi=00:mi=00:mh=00:ln=01;36:or=01;31:di=01;34:ow=04;01;34:st=34:tw=04;34:'
@@ -50,7 +53,7 @@ alias graph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold
 
 
 
-# ZSH Settings
+### ZSH Settings
 
 
 # Uncomment the following line to use case-sensitive completion.
