@@ -18,7 +18,7 @@ dotfiles code ~
 ## Installation
 ### Install in WSL
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap-wsl.sh)
+sudo bash <(curl -sL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap-wsl.sh)
 ```
 
 ### Install in Git Bash
