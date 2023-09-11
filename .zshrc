@@ -33,7 +33,7 @@ LS_COLORS+=':no=38;5;248'
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
 # [WSL] Attempt mounting drive D
-mkdir /mnt/d/
+mkdir -p /mnt/d/
 #sudo mount -t drvfs D: /mnt/d -o metadata
 
 # [WSL] Get windows username
