@@ -18,9 +18,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 ### User configuration
 
 # Set up dotfiles
-export DOTFILES_REPO="$HOME/.dotfiles"
+DOTFILES_REPO="$HOME/.dotfiles"
 alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
-alias dotfiles-override="bash <(curl -sL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap-wsl.sh)"
+alias dotfiles-override="bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)"
 
 # Set default text editor
 export VISUAL=nano
