@@ -1,7 +1,12 @@
 # dotfiles
 
-## Init from scratch
+## Installation
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)
+```
 
+
+## Init from scratch
 ```bash
 export $DOTFILES_REPO="$HOME/.dotfiles"
 git init --bare $DOTFILES_REPO
@@ -9,19 +14,24 @@ alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
 dotfiles git config --local status.showUntrackedFiles no
 ```
 
-## Open git repo in vscode
 
+## Fresh install steps
+- Install oh-my-zsh:
 ```bash
-dotfiles code ~
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-## Installation
-### Install in WSL
+- Run zsh:
 ```bash
-sudo bash <(curl -sL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap-wsl.sh)
+zsh
 ```
 
-### Install in Git Bash
+- Install Powerlevel10k:
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap-gitbash.sh)
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+- Install dofiles:
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)
 ```
