@@ -22,6 +22,8 @@ then
 	cd $HOME
 	rm -rf $DOTFILES_REPO
 	
+	git config --global url.https://.insteadOf git://
+	
 	git clone -b $branch --single-branch --bare https://github.com/LeoLuxo/dotfiles.git $DOTFILES_REPO
 
 	dotfiles git checkout --force

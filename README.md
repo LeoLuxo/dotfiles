@@ -16,14 +16,11 @@ dotfiles git config --local status.showUntrackedFiles no
 
 
 ## Fresh install steps
+- Install zsh
+
 - Install oh-my-zsh:
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-- Run zsh:
-```bash
-zsh
 ```
 
 - Install Powerlevel10k:
@@ -34,4 +31,9 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 - Install dofiles:
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)
+```
+
+- Setup ssh keys:
+```bash
+ssh-keygen -t rsa-sha2-512 -b 2048 -N "" -C "" -f ~/.ssh/id_rsa_github
 ```
