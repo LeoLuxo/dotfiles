@@ -2,13 +2,14 @@
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
    branch='wsl'
-if [[ "$OSTYPE" == "msys" ]]; then
+elif [[ "$OSTYPE" == "msys" ]]; then
    branch='gitbash'
 else
 	echo "Unknown system, aborting"
 	exit 1
 fi
 
+echo "Platform detected: $branch"
 read -p "Running this script will overwrite ALL dotfiles on this system! Continue (y/n)?" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
