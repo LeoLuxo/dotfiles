@@ -19,8 +19,14 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set up dotfiles
 DOTFILES_REPO="$HOME/.dotfiles"
-alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
+alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME git"
 alias dotfiles-override="bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)"
+
+dotfiles-code () (
+  git clone https://github.com/LeoLuxo/dotfiles.git /tmp/dotfiles-code/
+  code --wait -n /tmp/dotfiles-code/
+  rm -rf /tmp/dotfiles-code/
+)
 
 # Set default text editor
 export VISUAL=nano
@@ -44,6 +50,9 @@ WINDOWS_USER=$(/mnt/c/Windows/System32/cmd.exe /c 'echo %USERNAME%' | sed -e 's/
 hash -d w="/mnt/c/Users/$WINDOWS_USER"
 hash -d c="/mnt/c/"
 hash -d d="/mnt/d/"
+
+# [WSL] Better apt-get
+alias apt="sudo apt-get -q -o Dpkg::Progress=true -o Dpkg::Progress-Fancy=true -o APT::Get::AutomaticRemove=true"
 
 # Custom aliases
 alias explorer="explorer.exe"
