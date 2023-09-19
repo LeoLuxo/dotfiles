@@ -27,7 +27,7 @@ then
 	git clone -b $branch --single-branch --bare https://github.com/LeoLuxo/dotfiles.git $DOTFILES_REPO
 
 	dotfiles git checkout --force
-	dotfiles git config status.showUntrackedFiles no
+	dotfiles git config --local status.showUntrackedFiles no
 	
 	if [[ "$branch" == "wsl" ]]; then
 		sudo rm "/etc/wsl.conf"
