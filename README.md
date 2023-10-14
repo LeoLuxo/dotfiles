@@ -17,6 +17,11 @@ dotfiles git config --local status.showUntrackedFiles no
 
 ## Fresh install steps
 - Install zsh
+https://packages.msys2.org/package/zsh
+or
+```bash
+sudo apt-get install zsh
+```
 
 - Install oh-my-zsh:
 ```bash
