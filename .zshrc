@@ -40,6 +40,8 @@ alias graph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold
 # Scoop
 scoop alias add upgrade 'scoop update *' 'Updates all apps, just like brew or apt'
 
+# Fix coq_makefile problems
+export COQBIN=/c/Scoop/apps/coq/current/bin/
 
 
 ### ZSH Settings
