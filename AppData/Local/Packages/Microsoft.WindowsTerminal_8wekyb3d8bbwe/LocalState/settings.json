@@ -35,12 +35,6 @@
     "defaultProfile": "{c9124599-eaea-4cf4-8f5e-99430bc389cf}",
     "initialPosition": ",",
     "launchMode": "maximized",
-    "newTabMenu": 
-    [
-        {
-            "type": "remainingProfiles"
-        }
-    ],
     "profiles": 
     {
         "defaults": 
@@ -50,9 +44,10 @@
             "colorScheme": "One Half Dark",
             "font": 
             {
-                "face": "Mononoki Nerd Font Mono"
+                "face": "Mononoki Nerd Font",
+                "size": 16
             },
-            "opacity": 70,
+            "opacity": 60,
             "padding": "20",
             "useAcrylic": true
         },
@@ -65,12 +60,6 @@
                 "icon": "C:\\Program Files\\Git\\mingw64\\share\\git\\git-for-windows.ico",
                 "name": "Git Bash",
                 "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
-                "hidden": false,
-                "name": "Ubuntu",
-                "source": "Windows.Terminal.Wsl"
             },
             {
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
@@ -320,6 +309,5 @@
         }
     ],
     "tabWidthMode": "equal",
-    "themes": [],
     "windowingBehavior": "useExisting"
 }
