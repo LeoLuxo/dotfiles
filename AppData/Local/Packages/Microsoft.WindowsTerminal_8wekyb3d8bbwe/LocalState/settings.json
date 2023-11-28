@@ -45,7 +45,8 @@
             "font": 
             {
                 "face": "Mononoki Nerd Font",
-                "size": 16
+                (%USER-neon%   "size": 16 %)
+                (%USER-pollux% "size": 12 %)
             },
             "opacity": 60,
             "padding": "20",
