@@ -10,16 +10,16 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 elif [[ "$OSTYPE" == "msys" ]]; then
    branch='gitbash'
 else
-	printf "${RED}Unknown system, aborting${NOCOLOR}"
+	printf "${RED}Unknown system, aborting${NOCOLOR}\n"
 	exit 1
 fi
 
-printf "Platform detected: ${GREEN}$branch${NOCOLOR}"
+printf "Platform detected: ${GREEN}$branch${NOCOLOR}\n"
 read -p "${RED}Running this script will overwrite ALL dotfiles on this system!${NOCOLOR} Continue (y/n)?" -n 1 -r
-printf ""
+printf "\n"
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-	printf "${BLUE}Setting environment variables...${NOCOLOR}"
+	printf "${BLUE}Setting environment variables...${NOCOLOR}\n"
 	DOTFILES_REPO="$HOME/.dotfiles"
 	DOTFILES_TEMP="$TEMP/.dotfiles"
  
@@ -27,21 +27,21 @@ then
 		GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME $@
 	}
 	
-	printf "${BLUE}Removing previous dotfiles...${NOCOLOR}"
+	printf "${BLUE}Removing previous dotfiles...${NOCOLOR}\n"
 	cd $HOME
 	rm -rf $DOTFILES_REPO
 	
 	git config --global url.https://.insteadOf git://
 	
-	printf "${BLUE}Downloading bare dotfiles repo...${NOCOLOR}"
+	printf "${BLUE}Downloading bare dotfiles repo...${NOCOLOR}\n"
 	git clone -b $branch --single-branch --bare https://github.com/LeoLuxo/dotfiles.git $DOTFILES_REPO
 	dotfiles git config --local status.showUntrackedFiles no
  
-	printf "${BLUE}Downloading temp dotfiles repo...${NOCOLOR}"
+	printf "${BLUE}Downloading temp dotfiles repo...${NOCOLOR}\n"
 	git clone -b $branch --single-branch https://github.com/LeoLuxo/dotfiles.git $DOTFILES_TEMP
  	grep -rl "(%USER-$USERNAME%" $DOTFILES_TEMP | xargs -i@ sed -ri -e "s/\(%USER-$USERNAME%\s*?(.*?)\s*?%\)/\1/g" -e "/\(%USER-(.+?)%(.*?)%\)/d" @
   
-	printf "${BLUE}Copying dotfiles...${NOCOLOR}"
+	printf "${BLUE}Copying dotfiles...${NOCOLOR}\n"
  	rm -rf $DOTFILES_TEMP/.git
   	cp -rf $DOTFILES_TEMP/* $HOME/.
   	rm -rf $DOTFILES_TEMP
@@ -51,7 +51,7 @@ then
 		sudo ln "$HOME/.wsl.conf" "/etc/wsl.conf"
 	fi
 
-	eprintf "${GREEN}Done!${NOCOLOR}"
+	eprintf "${GREEN}Done!${NOCOLOR}\n"
  
   	exec zsh
 else
