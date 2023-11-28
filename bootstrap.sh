@@ -31,8 +31,8 @@ then
  
 	git clone -b $branch --single-branch https://github.com/LeoLuxo/dotfiles.git $DOTFILES_TEMP
  	grep -rl "(%USER-$USERNAME%" $DOTFILES_TEMP | xargs -i@ sed -ri -e "s/\(%USER-$USERNAME%\s*?(.*?)\s*?%\)/\1/g" -e "/\(%USER-(.+?)%(.*?)%\)/d" @
- 	shopt -s extglob
-  	cp -rf $DOTFILES_TEMP/!(.git) $HOME/.
+ 	rm -rf $DOTFILES_TEMP/.git
+  	cp -rf $DOTFILES_TEMP/* $HOME/.
   	rm -rf $DOTFILES_TEMP
  	
 	if [[ "$branch" == "wsl" ]]; then
