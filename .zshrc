@@ -17,8 +17,6 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 ### User configuration
 
-setopt EXTENDED_GLOB
-
 # Set up dotfiles
 DOTFILES_REPO="$HOME/.dotfiles"
 alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
@@ -49,6 +47,8 @@ export COQBIN=/c/Scoop/apps/coq/current/bin/
 
 
 ### ZSH Settings
+
+setopt EXTENDED_GLOB
 
 
 # Uncomment the following line to use case-sensitive completion.
@@ -105,7 +105,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git clipboard)
 
 source $ZSH/oh-my-zsh.sh
 
