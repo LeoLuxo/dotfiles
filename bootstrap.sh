@@ -14,7 +14,11 @@ read -p "Running this script will overwrite ALL dotfiles on this system! Continu
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
+	setopt EXTENDED_GLOB
+ 	
 	DOTFILES_REPO="$HOME/.dotfiles"
+	DOTFILES_TEMP="$TEMP/.dotfiles"
+ 
 	function dotfiles {
 		GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME $@
 	}
@@ -25,11 +29,12 @@ then
 	git config --global url.https://.insteadOf git://
 	
 	git clone -b $branch --single-branch --bare https://github.com/LeoLuxo/dotfiles.git $DOTFILES_REPO
-
-	dotfiles git checkout --force
 	dotfiles git config --local status.showUntrackedFiles no
-
- 	grep -rl "(%USER-$USERNAME%" * | xargs -i@ sed -ri -e "s/\(%USER-$USERNAME%\s*?(.*?)\s*?%\)/\1/g" -e "/\(%USER-(.+?)%(.*?)%\)/d" @
+ 
+	git clone -b $branch --single-branch https://github.com/LeoLuxo/dotfiles.git $DOTFILES_TEMP
+ 	grep -rl "(%USER-$USERNAME%" $DOTFILES_TEMP | xargs -i@ sed -ri -e "s/\(%USER-$USERNAME%\s*?(.*?)\s*?%\)/\1/g" -e "/\(%USER-(.+?)%(.*?)%\)/d" @
+ 	cp -rf $DOTFILES_TEMP/*~.git $HOME/.
+  	rm -rf $DOTFILES_TEMP
  	
 	if [[ "$branch" == "wsl" ]]; then
 		sudo rm "/etc/wsl.conf"
