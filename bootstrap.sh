@@ -15,7 +15,7 @@ else
 fi
 
 printf "Platform detected: ${GREEN}$branch${NOCOLOR}\n"
-read -p "${RED}Running this script will overwrite ALL dotfiles on this system!${NOCOLOR} Continue (y/n)?" -n 1 -r
+read -p $'${RED}Running this script will overwrite ALL dotfiles on this system!${NOCOLOR} Continue (y/n)?' -n 1 -r
 printf "\n"
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
