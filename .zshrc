@@ -17,6 +17,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 ### User configuration
 
+setopt EXTENDED_GLOB
+
 # Set up dotfiles
 DOTFILES_REPO="$HOME/.dotfiles"
 alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
