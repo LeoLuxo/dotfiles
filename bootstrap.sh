@@ -39,6 +39,8 @@ then
 		sudo rm "/etc/wsl.conf"
 		sudo ln "$HOME/.wsl.conf" "/etc/wsl.conf"
 	fi
+
+  	exec zsh
 else
 	[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
 fi
