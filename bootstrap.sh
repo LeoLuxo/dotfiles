@@ -51,7 +51,7 @@ then
 		sudo ln "$HOME/.wsl.conf" "/etc/wsl.conf"
 	fi
 
-	eprintf "${GREEN}Done!${NOCOLOR}\n"
+	printf "${GREEN}Done!${NOCOLOR}\n"
  
   	exec zsh
 else
