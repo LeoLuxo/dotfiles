@@ -14,6 +14,7 @@ read -p "Running this script will overwrite ALL dotfiles on this system! Continu
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
+	echo "Setting environment variables..."
 	DOTFILES_REPO="$HOME/.dotfiles"
 	DOTFILES_TEMP="$TEMP/.dotfiles"
  
@@ -21,16 +22,21 @@ then
 		GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME $@
 	}
 	
+	echo "Removing previous dotfiles..."
 	cd $HOME
 	rm -rf $DOTFILES_REPO
 	
 	git config --global url.https://.insteadOf git://
 	
+	echo "Downloading bare dotfiles repo..."
 	git clone -b $branch --single-branch --bare https://github.com/LeoLuxo/dotfiles.git $DOTFILES_REPO
 	dotfiles git config --local status.showUntrackedFiles no
  
+	echo "Downloading temp dotfiles repo..."
 	git clone -b $branch --single-branch https://github.com/LeoLuxo/dotfiles.git $DOTFILES_TEMP
  	grep -rl "(%USER-$USERNAME%" $DOTFILES_TEMP | xargs -i@ sed -ri -e "s/\(%USER-$USERNAME%\s*?(.*?)\s*?%\)/\1/g" -e "/\(%USER-(.+?)%(.*?)%\)/d" @
+  
+	echo "Copying dotfiles..."
  	rm -rf $DOTFILES_TEMP/.git
   	cp -rf $DOTFILES_TEMP/* $HOME/.
   	rm -rf $DOTFILES_TEMP
@@ -40,6 +46,8 @@ then
 		sudo ln "$HOME/.wsl.conf" "/etc/wsl.conf"
 	fi
 
+	echo "Done!"
+ 
   	exec zsh
 else
 	[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
