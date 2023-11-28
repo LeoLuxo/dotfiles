@@ -28,7 +28,9 @@ then
 
 	dotfiles git checkout --force
 	dotfiles git config --local status.showUntrackedFiles no
-	
+
+ 	grep -rl "(%USER-$USERNAME%" * | xargs -i@ sed -ri -e "s/\(%USER-$USERNAME%\s*?(.*?)\s*?%\)/\1/g" -e "/\(%USER-(.+?)%(.*?)%\)/d" @
+ 	
 	if [[ "$branch" == "wsl" ]]; then
 		sudo rm "/etc/wsl.conf"
 		sudo ln "$HOME/.wsl.conf" "/etc/wsl.conf"
