@@ -2,7 +2,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+	source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # Path to your oh-my-zsh installation.
@@ -23,16 +23,16 @@ alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
 alias dotfiles-override="bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/download.sh)"
 
 function dotfiles-edit {
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  	branch='wsl'
-  elif [[ "$OSTYPE" == "msys" ]]; then
-  	branch='gitbash'
-  else
-  	printf "\033[1;31mUnknown system\033[0m\n"
-  	exit 1
-  fi
-  filepath=$(realpath --relative-to="$HOME" "$1")
-  explorer.exe "https://github.com/LeoLuxo/dotfiles/edit/$branch/$filepath"
+	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+		branch='wsl'
+	elif [[ "$OSTYPE" == "msys" ]]; then
+		branch='gitbash'
+	else
+		printf "\033[1;31mUnknown system\033[0m\n"
+		exit 1
+	fi
+	filepath=$(realpath --relative-to="$HOME" "$1")
+	explorer.exe "https://github.com/LeoLuxo/dotfiles/edit/$branch/$filepath"
 }
 
 # Set default text editor
