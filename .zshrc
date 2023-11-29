@@ -22,6 +22,19 @@ DOTFILES_REPO="$HOME/.dotfiles"
 alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
 alias dotfiles-override="bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)"
 
+function dotfiles-edit {
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  	branch='wsl'
+  elif [[ "$OSTYPE" == "msys" ]]; then
+  	branch='gitbash'
+  else
+  	printf "\033[1;31mUnknown system\033[0m\n"
+  	exit 1
+  fi
+  filepath=$(realpath --relative-to="$HOME" "$1")
+  explorer.exe "https://github.com/LeoLuxo/dotfiles/edit/$branch/$filepath"
+}
+
 # Set default text editor
 export VISUAL=nano
 export EDITOR="$VISUAL"
