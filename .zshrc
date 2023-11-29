@@ -20,7 +20,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Set up dotfiles
 DOTFILES_REPO="$HOME/.dotfiles"
 alias dotfiles="GIT_DIR=$DOTFILES_REPO GIT_WORK_TREE=$HOME"
-alias dotfiles-override="bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)"
+alias dotfiles-override="bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/download.sh)"
 
 function dotfiles-edit {
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
