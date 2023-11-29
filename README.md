@@ -1,8 +1,13 @@
 # dotfiles
 
-## Installation
+## Downloading
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/download.sh)
+```
+
+## Installing
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/install.sh)
 ```
 
 
