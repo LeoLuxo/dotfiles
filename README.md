@@ -2,7 +2,7 @@
 
 ## Installation
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/download.sh)
 ```
 
 
@@ -35,7 +35,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 
 - Install dofiles:
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/bootstrap.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/download.sh)
 ```
 
 - Setup ssh keys:
