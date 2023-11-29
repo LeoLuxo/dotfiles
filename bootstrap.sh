@@ -45,7 +45,7 @@ then
   
 	printf "${BLUE}Copying dotfiles...${NOCOLOR}\n"
  	rm -rf $DOTFILES_TEMP/.git
-  	cp -rf $DOTFILES_TEMP/* $HOME/.
+  	cp -rfT $DOTFILES_TEMP $HOME
   	rm -rf $DOTFILES_TEMP
  	
 	if [[ "$branch" == "wsl" ]]; then
