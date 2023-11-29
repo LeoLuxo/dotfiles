@@ -55,6 +55,8 @@ then
 	fi
 
 	printf "${GREEN}Done!${NOCOLOR}\n"
+
+ 	killall -USR1 zsh
 else
 	[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
 fi
