@@ -32,6 +32,7 @@ then
 	printf "${BLUE}Removing previous dotfiles...${NOCOLOR}\n"
 	cd $HOME
 	rm -rf $DOTFILES_REPO
+	rm -rf $DOTFILES_TEMP
 	
 	git config --global url.https://.insteadOf git://
 	
