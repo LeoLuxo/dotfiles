@@ -316,5 +316,6 @@
         }
     ],
     "tabWidthMode": "equal",
+    "useAcrylicInTabRow": true,
     "windowingBehavior": "useExisting"
 }
