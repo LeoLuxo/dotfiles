@@ -1,0 +1,172 @@
+{
+	"$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+	"palette": {
+		"os": "#ACB0BE",
+		"white": "#FFFFFF",
+		"textd": "#45495E",
+		"textb": "#CAD3F5",
+		"rosewater": "#F4DBD6",
+		"flamingo": "#F0C6C6",
+		"pink": "#F5BDE6",
+		"mauve": "#C6A0F6",
+		"red": "#ED8796",
+		"maroon": "#EE99A0",
+		"peach": "#F5A97F",
+		"yellow": "#EED49F",
+		"green": "#A6DA95",
+		"teal": "#8BD5CA",
+		"sky": "#91D7E3",
+		"sapphire": "#7DC4E4",
+		"blue": "#8AADF4",
+		"lavender": "#B7BDF8"
+	},
+	"blocks": [
+		{
+			"alignment": "left",
+			"newline": true,
+			"segments": [
+				{
+					"style": "plain",
+					"type": "text",
+					"template": "\u0000"
+				}
+			],
+			"type": "prompt"
+		},
+		{
+			"alignment": "left",
+			"segments": [
+				{
+					"background": "p:blue",
+					"foreground": "p:textb",
+					"leading_diamond": "\ue0b6",
+					"properties": {
+						"windows": "\ue62a"
+					},
+					"style": "diamond",
+					"template": "{{.Icon}}{{ if .WSL }} WSL{{ end }} ",
+					"type": "os"
+				},
+				{
+					"background": "p:flamingo",
+					"foreground": "p:textd",
+					"powerline_symbol": "\ue0b4",
+					"properties": {
+						"style": "full"
+					},
+					"style": "powerline",
+					"template": " {{ .Path }} ",
+					"type": "path"
+				},
+				{
+					"background": "p:mauve",
+					"foreground": "p:textd",
+					"powerline_symbol": "\ue0b0",
+					"style": "powerline",
+					"template": " \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
+					"type": "node"
+				},
+				{
+					"background": "p:maroon",
+					"foreground": "p:textd",
+					"powerline_symbol": "\ue0b0",
+					"properties": {
+						"fetch_version": false
+					},
+					"style": "powerline",
+					"template": " \ue235 {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }} ",
+					"type": "python"
+				},
+				{
+					"background": "p:yellow",
+					"background_templates": [
+						"{{ if or (.Working.Changed) (.Staging.Changed) }}#FCA17D{{ end }}",
+						"{{ if and (gt .Ahead 0) (gt .Behind 0) }}#f26d50{{ end }}",
+						"{{ if gt .Ahead 0 }}#89d1dc{{ end }}",
+						"{{ if gt .Behind 0 }}#f17c37{{ end }}"
+					],
+					"foreground": "p:textd",
+					"powerline_symbol": "\ue0b0",
+					"properties": {
+						"fetch_status": true,
+						"fetch_upstream_icon": true
+					},
+					"style": "powerline",
+					"template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }} ",
+					"type": "git"
+				}
+			],
+			"type": "prompt"
+		},
+		{
+			"alignment": "right",
+			"segments": [
+				{
+					"background": "#83769c",
+					"foreground": "#ffffff",
+					"invert_powerline": true,
+					"powerline_symbol": "\ue0b2",
+					"properties": {
+						"always_enabled": true
+					},
+					"style": "powerline",
+					"template": " {{ .FormattedMs }} ",
+					"type": "executiontime"
+				},
+				{
+					"background": "#86BBD8",
+					"foreground": "#FFD700",
+					"invert_powerline": true,
+					"powerline_symbol": "\ue0b2",
+					"style": "powerline",
+					"template": " \u26a1",
+					"type": "root"
+				},
+				{
+					"background": "#86BBD8",
+					"foreground": "#ffffff",
+					"invert_powerline": true,
+					"powerline_symbol": "\ue0b2",
+					"style": "powerline",
+					"template": " {{ .UserName }} ",
+					"type": "session"
+				},
+				{
+					"background": "#33658A",
+					"foreground": "#ffffff",
+					"invert_powerline": true,
+					"style": "diamond",
+					"template": " {{ .Name }} ",
+					"trailing_diamond": "\ue0b4",
+					"type": "shell"
+				}
+			],
+			"type": "prompt"
+		},
+		{
+			"alignment": "left",
+			"newline": true,
+			"segments": [
+				{
+					"style": "plain",
+					"template": " \uf0e7 ",
+					"type": "root"
+				},
+				{
+					"foreground": "#ffffff",
+					"style": "plain",
+					"template": "<#69FF94>\u276f</>",
+					"type": "text"
+				}
+			],
+			"type": "prompt"
+		}
+	],
+	"final_space": true,
+	"version": 2,
+	"transient_prompt": {
+		"background": "transparent",
+		"foreground": "p:textb",
+		"template": "{{now | date \"15:04:05\"}} \u276f "
+	}
+}

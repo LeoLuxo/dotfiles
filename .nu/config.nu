@@ -775,8 +775,8 @@ $env.config = ($env.config |
 # Override default nu command
 alias nu = ^nu --env-config ~/.nu/env.nu --config ~/.nu/config.nu
 
-# Starship
-use ~/.cache/starship/init.nu
+# Oh-my-posh
+source ~/.nu/ohmyposh/ohmyposh.nu
 
 # Scripts
 source rusty-paths.nu
