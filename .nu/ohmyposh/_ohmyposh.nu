@@ -1,7 +1,7 @@
 $env.config = ($env.config | upsert render_right_prompt_on_last_line true)
 
 $env.POWERLINE_COMMAND = 'oh-my-posh'
-$env.POSH_THEME = "C:\\Users\\neon\\.nu\\ohmyposh\\themes\\peppy.omp.json"
+$env.POSH_THEME = "C:\\Users\\pollux\\.nu\\ohmyposh\\themes\\peppy.omp.json"
 $env.PROMPT_INDICATOR = ""
 $env.POSH_PID = (random uuid)
 $env.POSH_SHELL_VERSION = (version | get version)

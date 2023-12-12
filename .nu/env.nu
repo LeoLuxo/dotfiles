@@ -29,7 +29,10 @@ $env.ENV_CONVERSIONS = {
 
 
 
-# Custom env
+# Custom 
+
+# Homogeanize path to fix compat issues
+$env.PATH = $env.Path
 
 # Directories to search for scripts when calling source or use
 $env.NU_LIB_DIRS = [
@@ -42,4 +45,4 @@ $env.NU_PLUGIN_DIRS = [
 ]
 
 # Oh-my-posh
-oh-my-posh init nu --config "~/.nu/ohmyposh/themes/peppy.omp.json" --print | save ~/.nu/ohmyposh/ohmyposh.nu --force
+oh-my-posh init nu --config "~/.nu/ohmyposh/themes/peppy.omp.json" --print | save ~/.nu/ohmyposh/_ohmyposh.nu --force

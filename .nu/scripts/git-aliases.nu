@@ -1,14 +1,14 @@
 def git_current_branch [] {
-    (gstat).branch
+	(gstat).branch
 }
 
 def git_main_branch [] {
-    git remote show origin
-        | lines
-        | str trim
-        | find --regex 'HEAD .*?[：: ].+'
-        | first
-        | str replace 'HEAD .*?[：: ](.+)' '$1'
+	git remote show origin
+		| lines
+		| str trim
+		| find --regex 'HEAD .*?[：: ].+'
+		| first
+		| str replace 'HEAD .*?[：: ](.+)' '$1'
 }
 
 #
@@ -60,8 +60,8 @@ export alias gcf = git config --list
 export alias gcl = git clone --recurse-submodules
 export alias gclean = git clean --interactive -d
 export def gpristine [] {
-    git reset --hard
-    git clean -d --force -x
+	git reset --hard
+	git clean -d --force -x
 }
 export alias gcm = git checkout (git_main_branch)
 export alias gcmsg = git commit --message
@@ -115,8 +115,8 @@ export alias gmtl = git mergetool --no-prompt
 export alias gmtlvim = git mergetool --no-prompt --tool=vimdiff
 export alias gma = git merge --abort
 export def gmom [] {
-    let main = (git_main_branch)
-    git merge $"origin/($main)"
+	let main = (git_main_branch)
+	git merge $"origin/($main)"
 }
 
 export alias gp = git push
@@ -125,7 +125,7 @@ export alias gpf = git push --force-with-lease
 export alias gpf! = git push --force
 export alias gpl = git pull
 export def gpoat [] {
-    git push origin --all; git push origin --tags
+	git push origin --all; git push origin --tags
 }
 export alias gpod = git push origin --delete
 export alias gpodc = git push origin --delete (git_current_branch)
@@ -189,7 +189,7 @@ export alias gswc = git switch --create
 
 export alias gts = git tag --sign
 export def gtv [] {
-    git tag | lines | sort
+	git tag | lines | sort
 }
 export alias glum = git pull upstream (git_main_branch)
 
