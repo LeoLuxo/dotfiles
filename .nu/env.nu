@@ -29,7 +29,7 @@ $env.ENV_CONVERSIONS = {
 
 
 
-# Custom 
+# Custom
 
 # Homogeanize path to fix compat issues
 $env.PATH = $env.Path
@@ -43,6 +43,12 @@ $env.NU_LIB_DIRS = [
 $env.NU_PLUGIN_DIRS = [
 	("~/.nu" | path join "plugins")
 ]
+
+
+
+# Scoop
+$env.SCOOP = "C:/Scoop/"
+$env.SCOOP_GLOBAL = "C:/ProgramData/scoop/"
 
 # Oh-my-posh
 oh-my-posh init nu --config "~/.nu/ohmyposh/themes/peppy.omp.json" --print | save ~/.nu/ohmyposh/_ohmyposh.nu --force

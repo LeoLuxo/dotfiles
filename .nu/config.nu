@@ -236,7 +236,7 @@ $env.config = {
 	edit_mode: emacs # emacs, vi
 	shell_integration: false # enables terminal shell integration. Off by default, as some terminals have issues with this.
 	render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
-	use_kitty_protocol: false # enables keyboard enhancement protocol implemented by kitty console, only if your terminal support this
+	use_kitty_protocol: true # enables keyboard enhancement protocol implemented by kitty console, only if your terminal support this
 
 	hooks: {
 		pre_prompt: [{ null }] # run before the prompt is shown
@@ -780,11 +780,13 @@ source ~/.nu/ohmyposh/_ohmyposh.nu
 
 # Scripts
 source rusty-paths.nu
-source git-aliases.nu
+
+# Aliases
+use aliases/git-aliases.nu *
 
 # Completions
-source completions/cargo.nu
-source completions/git.nu
-source completions/rustup.nu
-source completions/scoop.nu
-source completions/winget.nu
+use completions/cargo-completions.nu *
+use completions/git-completions.nu *
+use completions/rustup-completions.nu *
+use completions/scoop-completions.nu *
+# use completions/winget-completions.nu *   # completely borked
