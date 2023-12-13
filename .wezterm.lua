@@ -1,6 +1,7 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 local act = wezterm.action
+local mux = wezterm.mux
 
 
 -- This table will hold the configuration.
@@ -14,10 +15,27 @@ end
 
 -- This is where you actually apply your config choices
 config.enable_kitty_keyboard = true
-config.allow_win32_input_mode = false
+-- config.allow_win32_input_mode = false
 config.keys = {
-	-- { key = 'V', mods = 'CTRL', action = act.PasteFrom 'Clipboard' },
-	-- { key = 'C', mods = 'CTRL', action = act.CopyTo 'Clipboard' },
+	{
+		key = 'v',
+		mods = 'CTRL',
+		action = act.PasteFrom 'Clipboard'
+	},
+	{
+		key = 'c',
+		mods = 'CTRL',
+		action = wezterm.action_callback(function(window, pane)
+			selection_text = window:get_selection_text_for_pane(pane)
+			is_selection_active = string.len(selection_text) ~= 0
+			if is_selection_active then
+				window:perform_action(act.CopyTo('ClipboardAndPrimarySelection'), pane)
+				window:perform_action(act.ClearSelection, pane)
+			else
+				window:perform_action(act.SendKey { key = 'c', mods = 'CTRL' }, pane)
+			end
+		end),
+	},
 }
 
 -- config.color_scheme = 'Catppuccin Mocha'
@@ -69,8 +87,16 @@ config.colors = {
 	},
 }
 
+wezterm.on('gui-startup', function(cmd)
+	local tab, pane, window = mux.spawn_window(cmd or {})
+	window:gui_window():maximize()
+end)
 
+
+
+-- nu --env-config ~/.nu/env.nu --config ~/.nu/config.nu
 config.default_prog = { 'nu', '--env-config', '~/.nu/env.nu', '--config', '~/.nu/config.nu' }
 -- config.default_prog = { 'C:\\Program Files\\Git\\bin\\bash.exe' }
+
 -- and finally, return the configuration to wezterm
 return config
