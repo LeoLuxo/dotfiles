@@ -2,6 +2,7 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
 local mux = wezterm.mux
+local nf = wezterm.nerdfonts
 
 
 -- This table will hold the configuration.
@@ -38,19 +39,9 @@ config.keys = {
 	},
 }
 
--- config.color_scheme = 'Catppuccin Mocha'
-config.color_scheme = 'OneHalfDark'
+
 config.win32_system_backdrop = 'Acrylic'
 config.window_background_opacity = 0.3
-
-config.font_size = 14.0
-config.font = wezterm.font 'Mononoki Nerd Font'
--- config.font = wezterm.font_with_fallback {
--- 	'My Preferred Font',
--- 	-- This font has a broader selection of Chinese glyphs than my preferred font
--- 	'DengXian',
---  },
-config.use_fancy_tab_bar = true
 config.window_decorations = "RESIZE"
 config.window_padding = {
 	left = 25,
@@ -58,34 +49,160 @@ config.window_padding = {
 	top = 2,
 	bottom = 15,
 }
-config.window_frame = {
-	-- The font used in the tab bar.
-	-- Roboto Bold is the default; this font is bundled
-	-- with wezterm.
-	-- Whatever font is selected here, it will have the
-	-- main font setting appended to it to pick up any
-	-- fallback fonts you may have used there.
-	font = wezterm.font { family = 'Roboto', weight = 'Bold' },
+config.window_close_confirmation = 'NeverPrompt'
 
-	-- The size of the font in the tab bar.
-	-- Default to 10.0 on Windows but 12.0 on other systems
-	font_size = 12.0,
+config.color_scheme = 'OneHalfDark'
+config.font_size = 14.0
+config.font = wezterm.font 'Mononoki Nerd Font'
 
-	-- The overall background color of the tab bar when
-	-- the window is focused
-	active_titlebar_bg = '#333333',
 
-	-- The overall background color of the tab bar when
-	-- the window is not focused
-	inactive_titlebar_bg = '#333333',
+
+
+
+
+
+
+
+local process_icons = {
+	bash = nf.cod_terminal_bash,
+	nu = nf.oct_terminal,
+	powershell = nf.seti_powershell,
+	wslhost = nf.cod_terminal_ubuntu,
+	zsh = nf.dev_terminal,
 }
 
-config.colors = {
-	tab_bar = {
-		-- The color of the inactive tab bar edge/divider
-		inactive_tab_edge = '#575757',
-	},
+local process_names = {
+	bash = "bash",
+	nu = "nu",
+	powershell = "pwsh",
+	wslhost = "WSL",
+	zsh = "ZSH",
 }
+
+local process_colors = {
+	nu = "#7dc4e4",
+	wslhost = "#f5a97f",
+}
+
+local function get_process(tab)
+	local process_name =
+		 tab.active_pane.foreground_process_name:match("([^/\\]+)%.exe$") or
+		 tab.active_pane.foreground_process_name:match("([^/\\]+)$")
+
+	return process_name
+end
+
+local function basename(path)
+	return path:match("([^/\\]+)[/\\]?$") or path
+end
+
+local function get_cwd(tab)
+	local cwd_raw = tab.active_pane.current_working_dir
+	if cwd_raw == nil then
+		return ""
+	end
+
+	local cwd = cwd_raw:gsub("%%(%x%x)", function(hex)
+		return string.char(tonumber(hex, 16))
+	end)
+
+	return basename(cwd)
+end
+
+
+
+-- Tab Bar
+config.use_fancy_tab_bar = false
+config.show_new_tab_button_in_tab_bar = true
+config.hide_tab_bar_if_only_one_tab = false
+config.status_update_interval = 500
+config.tab_max_width = 25
+config.tab_bar_at_bottom = false
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+	local process = get_process(tab)
+	local icon = process_icons[process] or nf.cod_terminal
+	local name = process_names[process] or "?"
+	local color = process_colors[process] or "white"
+	local cwd = get_cwd(tab)
+
+	local max = max_width - 5 - wezterm.column_width(name)
+
+	if wezterm.column_width(cwd) > max then
+		cwd = wezterm.truncate_right(cwd, max - 1) .. '…'
+	end
+
+	local edge_background = '#333333'
+	local background = '#181818'
+	local foreground = '#808080'
+
+	if tab.is_active then
+		background = '#282828'
+		foreground = '#d0d0d0'
+		shell_intensity = 'Bold'
+	elseif hover then
+		background = '#383838'
+		foreground = '#909090'
+	end
+
+	local title = wezterm.format({
+		{ Background = { Color = edge_background } },
+		{ Foreground = { Color = background } },
+		-- { Text = nf.pl_right_hard_divider },
+		{ Text = nf.ple_left_half_circle_thick },
+		{ Background = { Color = background } },
+		{ Foreground = { Color = color } },
+		{ Text = icon },
+		{ Text = " " },
+		{ Attribute = { Intensity = tab.is_active and 'Bold' or 'Normal' } },
+		{ Text = name },
+		{ Attribute = { Intensity = 'Normal' } },
+		{ Text = " " },
+		{ Background = { Color = background } },
+		{ Foreground = { Color = foreground } },
+		{ Attribute = { Underline = tab.is_active and 'Single' or 'None' } },
+		{ Text = cwd },
+		{ Attribute = { Underline = 'None' } },
+		{ Background = { Color = edge_background } },
+		{ Foreground = { Color = background } },
+		-- { Text = nf.pl_left_hard_divider },
+		{ Text = nf.ple_right_half_circle_thick },
+	})
+
+	return title
+end)
+
+wezterm.on("update-status", function(window, pane)
+	local process = basename(pane:get_foreground_process_name())
+	local time = wezterm.strftime("%H:%M:%S")
+	local hostname = " " .. wezterm.hostname() .. " ";
+
+	local workspace_or_leader = nil
+
+	if window:active_key_table() then
+		workspace_or_leader = window:active_key_table()
+	elseif window:leader_is_active() then
+		workspace_or_leader = "LEADER"
+	end
+
+	workspace_or_leader = workspace_or_leader and (nf.oct_table .. " " .. workspace_or_leader .. " | ") or ""
+
+	window:set_right_status(wezterm.format({
+		{ Text = workspace_or_leader },
+		{ Foreground = { Color = "FFB86C" } },
+		{ Text = nf.fa_code .. " " .. process },
+		"ResetAttributes",
+		{ Text = " | " },
+		{ Text = nf.md_clock .. " " .. time .. " " },
+	}))
+end)
+
+
+
+
+
+
+
 
 wezterm.on('gui-startup', function(cmd)
 	local tab, pane, window = mux.spawn_window(cmd or {})
