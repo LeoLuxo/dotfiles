@@ -14,30 +14,7 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
--- This is where you actually apply your config choices
-config.enable_kitty_keyboard = true
--- config.allow_win32_input_mode = false
-config.keys = {
-	{
-		key = 'v',
-		mods = 'CTRL',
-		action = act.PasteFrom 'Clipboard'
-	},
-	{
-		key = 'c',
-		mods = 'CTRL',
-		action = wezterm.action_callback(function(window, pane)
-			selection_text = window:get_selection_text_for_pane(pane)
-			is_selection_active = string.len(selection_text) ~= 0
-			if is_selection_active then
-				window:perform_action(act.CopyTo('ClipboardAndPrimarySelection'), pane)
-				window:perform_action(act.ClearSelection, pane)
-			else
-				window:perform_action(act.SendKey { key = 'c', mods = 'CTRL' }, pane)
-			end
-		end),
-	},
-}
+
 
 
 config.win32_system_backdrop = 'Acrylic'
@@ -61,45 +38,21 @@ config.font = wezterm.font 'Mononoki Nerd Font'
 
 
 
+local default_domain = { name = "?", icon = nf.cod_terminal, color = "white" }
 
-
-local process_icons = {
-	bash = nf.cod_terminal_bash,
-	nu = nf.oct_terminal,
-	powershell = nf.seti_powershell,
-	wslhost = nf.cod_terminal_ubuntu,
-	zsh = nf.dev_terminal,
+local domains = {
+	["local"] = { name = "nu", icon = nf.fa_windows, color = "#7dc4e4", shortcut = "1" },
+	["WSL:Ubuntu"] = { name = "WSL", icon = nf.cod_terminal_ubuntu, color = "#f5a97f", shortcut = "2" },
 }
-
-local process_names = {
-	bash = "bash",
-	nu = "nu",
-	powershell = "pwsh",
-	wslhost = "WSL",
-	zsh = "ZSH",
-}
-
-local process_colors = {
-	nu = "#7dc4e4",
-	wslhost = "#f5a97f",
-}
-
-local function get_process(tab)
-	local process_name =
-		 tab.active_pane.foreground_process_name:match("([^/\\]+)%.exe$") or
-		 tab.active_pane.foreground_process_name:match("([^/\\]+)$")
-
-	return process_name
-end
 
 local function basename(path)
-	return path:match("([^/\\]+)[/\\]?$") or path
+	return path and path:match("([^/\\]+)[/\\]?$") or ""
 end
 
 local function get_cwd(tab)
 	local cwd_raw = tab.active_pane.current_working_dir
 	if cwd_raw == nil then
-		return ""
+		return nil
 	end
 
 	local cwd = cwd_raw:gsub("%%(%x%x)", function(hex)
@@ -119,14 +72,17 @@ config.status_update_interval = 500
 config.tab_max_width = 25
 config.tab_bar_at_bottom = false
 
+config.colors = {
+	tab_bar = {
+		background = '#333333',
+	}
+}
+
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local process = get_process(tab)
-	local icon = process_icons[process] or nf.cod_terminal
-	local name = process_names[process] or "?"
-	local color = process_colors[process] or "white"
+	local domain_info = domains[tab.active_pane.domain_name] or default_domain
 	local cwd = get_cwd(tab)
 
-	local max = max_width - 5 - wezterm.column_width(name)
+	local max = max_width - 5 - wezterm.column_width(domain_info.name)
 
 	if wezterm.column_width(cwd) > max then
 		cwd = wezterm.truncate_right(cwd, max - 1) .. '…'
@@ -148,14 +104,13 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	local title = wezterm.format({
 		{ Background = { Color = edge_background } },
 		{ Foreground = { Color = background } },
-		-- { Text = nf.pl_right_hard_divider },
 		{ Text = nf.ple_left_half_circle_thick },
 		{ Background = { Color = background } },
-		{ Foreground = { Color = color } },
-		{ Text = icon },
+		{ Foreground = { Color = domain_info.color } },
+		{ Text = domain_info.icon },
 		{ Text = " " },
 		{ Attribute = { Intensity = tab.is_active and 'Bold' or 'Normal' } },
-		{ Text = name },
+		{ Text = domain_info.name },
 		{ Attribute = { Intensity = 'Normal' } },
 		{ Text = " " },
 		{ Background = { Color = background } },
@@ -165,7 +120,6 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		{ Attribute = { Underline = 'None' } },
 		{ Background = { Color = edge_background } },
 		{ Foreground = { Color = background } },
-		-- { Text = nf.pl_left_hard_divider },
 		{ Text = nf.ple_right_half_circle_thick },
 	})
 
@@ -197,17 +151,50 @@ wezterm.on("update-status", function(window, pane)
 	}))
 end)
 
-
-
-
-
-
-
-
 wezterm.on('gui-startup', function(cmd)
 	local tab, pane, window = mux.spawn_window(cmd or {})
 	window:gui_window():maximize()
 end)
+
+
+
+
+
+
+-- Keyboard
+config.enable_kitty_keyboard = true
+
+config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 3000 }
+
+config.keys = {
+	{ key = 'd', mods = "LEADER", action = act.SpawnCommandInNewTab { domain = 'CurrentPaneDomain', }, },
+	{ key = 'v', mods = 'CTRL',   action = act.PasteFrom 'Clipboard' },
+	{
+		key = 'c',
+		mods = 'CTRL',
+		action = wezterm.action_callback(function(window, pane)
+			selection_text = window:get_selection_text_for_pane(pane)
+			is_selection_active = string.len(selection_text) ~= 0
+			if is_selection_active then
+				window:perform_action(act.CopyTo('ClipboardAndPrimarySelection'), pane)
+				window:perform_action(act.ClearSelection, pane)
+			else
+				window:perform_action(act.SendKey { key = 'c', mods = 'CTRL' }, pane)
+			end
+		end),
+	},
+}
+
+-- Quick domain
+for d, v in pairs(domains) do
+	table.insert(config.keys, {
+		key = v.shortcut,
+		mods = "LEADER",
+		action = act.SpawnCommandInNewTab {
+			domain = { DomainName = d },
+		},
+	})
+end
 
 
 
