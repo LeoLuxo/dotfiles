@@ -200,9 +200,7 @@ end
 
 
 
--- nu --env-config ~/.nu/env.nu --config ~/.nu/config.nu
-config.default_prog = { 'nu', '--env-config', '~/.nu/env.nu', '--config', '~/.nu/config.nu' }
--- config.default_prog = { 'C:\\Program Files\\Git\\bin\\bash.exe' }
+config.default_prog = { 'nu', '-e', 'startup', '--env-config', '~/.nu/env.nu', '--config', '~/.nu/config.nu' }
 
 -- and finally, return the configuration to wezterm
 return config

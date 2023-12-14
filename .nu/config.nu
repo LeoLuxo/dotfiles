@@ -144,7 +144,7 @@ let light_theme = {
 
 # The default config record. This is where much of your global configuration is setup.
 $env.config = {
-	show_banner: true # true or false to enable or disable the welcome banner at startup
+	show_banner: false # true or false to enable or disable the welcome banner at startup
 
 	ls: {
 		use_ls_colors: true # use the LS_COLORS environment variable to colorize output
@@ -766,10 +766,14 @@ $env.config = {
 # Custom settings
 
 # Override default nu command
-const nu_args = "--env-config ~/.nu/env.nu --config ~/.nu/config.nu" 
-def nu [] {
-	^nu $nu_args
+const nu_args = "--env-config ~/.nu/env.nu --config ~/.nu/config.nu"
+
+def nu [
+	--commands (-c): string="()",
+] {
+	^nu -e $"'($commands)'" $nu_args
 }
+
 
 # Oh-my-posh
 source ~/.nu/ohmyposh/_ohmyposh.nu
@@ -787,3 +791,44 @@ use completions/git-completions.nu *
 use completions/rustup-completions.nu *
 use completions/scoop-completions.nu *
 # use completions/winget-completions.nu *   # completely borked
+
+
+
+# Print custom banner
+use std ellie
+
+def banner [
+	--print (-p)
+] {
+	let out = $"
+(ellie)
+
+(ansi yellow)Startup Time: (ansi blue)($nu.startup-time)(ansi reset)
+"
+	if $print {
+		print $out
+	} else {
+		$out
+	}
+}
+
+# Setup startup command using hook
+def --env hook [
+	hook: string
+	command: string
+	--debug
+] {
+	$env.config.hooks = ($env.config.hooks | update $hook {
+		append [
+			$command,
+			$"$env.config.hooks = \($env.config.hooks | update ($hook) {drop 2})"
+		]
+	})
+	if $debug {
+		print ($env.config.hooks | get $hook)
+	}
+}
+
+def --env startup [] {
+	hook pre_prompt "banner --print"
+}
