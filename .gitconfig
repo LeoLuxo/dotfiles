@@ -1,16 +1,19 @@
 [user]
 	email = leo@gamboa.eu
 	name = LeoLuxo
+
 [init]
 	defaultBranch = main
+
+# Disable safe directory checks
 [safe]
-	directory = /
+    directory = *
 
 [core]
 	# Don't hide the .git directory on windows
 	hideDotFiles = false
 	# Set the text editor
-	editor = "nano"
+	editor = "code"
 
 [push]
 	autoSetupRemote = true
