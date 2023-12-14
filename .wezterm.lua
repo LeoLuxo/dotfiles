@@ -28,6 +28,8 @@ config.window_padding = {
 }
 config.window_close_confirmation = 'NeverPrompt'
 
+-- config.default_cursor_style = 'BlinkingBar' -- Doesn't work for some reason
+
 config.color_scheme = 'OneHalfDark'
 config.font_size = 14.0
 config.font = wezterm.font 'Mononoki Nerd Font'

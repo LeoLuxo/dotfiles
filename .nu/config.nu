@@ -766,7 +766,10 @@ $env.config = {
 # Custom settings
 
 # Override default nu command
-alias nu = ^nu --env-config ~/.nu/env.nu --config ~/.nu/config.nu
+const nu_args = "--env-config ~/.nu/env.nu --config ~/.nu/config.nu" 
+def nu [] {
+	^nu $nu_args
+}
 
 # Oh-my-posh
 source ~/.nu/ohmyposh/_ohmyposh.nu
@@ -775,8 +778,8 @@ source ~/.nu/ohmyposh/_ohmyposh.nu
 source rusty-paths.nu
 
 # Aliases
-use aliases/git-aliases.nu *
 use aliases/custom-aliases.nu *
+use aliases/git-aliases.nu *
 
 # Completions
 use completions/cargo-completions.nu *

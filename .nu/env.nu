@@ -45,7 +45,6 @@ $env.NU_PLUGIN_DIRS = [
 ]
 
 
-
 # Scoop
 $env.SCOOP = "C:/Scoop/"
 $env.SCOOP_GLOBAL = "C:/ProgramData/scoop/"
