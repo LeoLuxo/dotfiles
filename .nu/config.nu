@@ -793,42 +793,4 @@ use completions/scoop-completions.nu *
 # use completions/winget-completions.nu *   # completely borked
 
 
-
-# Print custom banner
-use std ellie
-
-def banner [
-	--print (-p)
-] {
-	let out = $"
-(ellie)
-
-(ansi yellow)Startup Time: (ansi blue)($nu.startup-time)(ansi reset)
-"
-	if $print {
-		print $out
-	} else {
-		$out
-	}
-}
-
-# Setup startup command using hook
-def --env hook [
-	hook: string
-	command: string
-	--debug
-] {
-	$env.config.hooks = ($env.config.hooks | update $hook {
-		append [
-			$command,
-			$"$env.config.hooks = \($env.config.hooks | update ($hook) {drop 2})"
-		]
-	})
-	if $debug {
-		print ($env.config.hooks | get $hook)
-	}
-}
-
-def --env startup [] {
-	hook pre_prompt "banner --print"
-}
+hook pre_prompt startup
