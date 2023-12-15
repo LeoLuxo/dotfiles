@@ -1,14 +1,9 @@
 # dotfiles
 
 ## Downloading
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/download.sh)
+```nu
 ```
 
-## Installing
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/install.sh)
-```
 
 
 ## Init from scratch
@@ -21,27 +16,6 @@ dotfiles git config --local status.showUntrackedFiles no
 
 
 ## Fresh install steps
-- Install zsh
-https://packages.msys2.org/package/zsh
-or
-```bash
-sudo apt-get install zsh
-```
-
-- Install oh-my-zsh:
-```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-- Install Powerlevel10k:
-```bash
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-```
-
-- Install dofiles:
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/LeoLuxo/dotfiles/main/download.sh)
-```
 
 - Setup ssh keys:
 ```bash
