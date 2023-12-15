@@ -774,12 +774,9 @@ alias nu = ^nu $nu_args
 source ~/.nu/ohmyposh/_ohmyposh.nu
 
 
-# Scripts
-source rusty-paths.nu
-
-# Aliases
-use aliases/custom-aliases.nu *
-use aliases/git-aliases.nu *
+# Scripts / Aliases / Addons
+source addons/rusty-paths.nu
+use addons/git-aliases.nu *
 
 # Completions
 use completions/cargo-completions.nu *
@@ -788,4 +785,7 @@ use completions/rustup-completions.nu *
 use completions/scoop-completions.nu *
 # use completions/winget-completions.nu *   # completely borked
 
+# My custom scripts
+use customs.nu *
+use dotfiles.nu *
 

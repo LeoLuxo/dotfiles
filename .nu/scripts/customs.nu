@@ -5,21 +5,28 @@ export def l [] {
 export alias please = sudo -d nu -c (history | last 1 | get command | into string)
 export alias pls = please
 
-export alias dope-gradient = ansi gradient --fgstart '0x40c9ff' --fgend '0xe81cff'
-
 
 # Setup one-time hook
 export def --env hook [
 	hook: string
 	command: string
+	--persistent (-p)
 	--debug
 ] {
-	$env.config.hooks = ($env.config.hooks | update $hook {
-		append [
-			$command,
-			$"$env.config.hooks = \($env.config.hooks | update ($hook) {drop 2})"
+	if $persistent {
+		
+	} else {
+		let id = random uuid
+		let payload = [
+			$"($command) #($id)",
+			$"$env.config.hooks = \($env.config.hooks | update ($hook) {filter {|x| $\"\($x)\" !~ '#($id)'}})"
 		]
-	})
+		
+		$env.config.hooks = ($env.config.hooks | update $hook {
+			append $payload
+		})
+	}
+	
 	if $debug {
 		print ($env.config.hooks | get $hook)
 	}
@@ -27,6 +34,8 @@ export def --env hook [
 
 # Startup banner
 use std [ellie, repeat]
+
+alias dope-gradient = ansi gradient --fgstart '0x40c9ff' --fgend '0xe81cff'
 
 def delimiter [] {
 	"━" | repeat (term size).columns | str join | dope-gradient
@@ -50,7 +59,7 @@ def reload-time [] {
 
 export def print-startup [] {
 	print $"\n(banner)\n\n(startup-time)\n\n(delimiter)\n"
-}
+9999999999999999999999999099999999999999999999}
 
 export def print-reload [] {
 	print $"\n(ansi green)Reload successful!\n(reload-time)\n"
