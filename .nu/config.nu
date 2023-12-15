@@ -766,17 +766,13 @@ $env.config = {
 # Custom settings
 
 # Override default nu command
-const nu_args = "--env-config ~/.nu/env.nu --config ~/.nu/config.nu"
-
-def nu [
-	--commands (-c): string="()",
-] {
-	^nu -e $"'($commands)'" $nu_args
-}
+const nu_args = "-e startup-hook --env-config ~/.nu/env.nu --config ~/.nu/config.nu"
+alias nu = ^nu $nu_args
 
 
 # Oh-my-posh
 source ~/.nu/ohmyposh/_ohmyposh.nu
+
 
 # Scripts
 source rusty-paths.nu
@@ -793,4 +789,3 @@ use completions/scoop-completions.nu *
 # use completions/winget-completions.nu *   # completely borked
 
 
-hook pre_prompt startup

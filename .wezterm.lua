@@ -200,7 +200,7 @@ end
 
 
 
-config.default_prog = { 'nu', '-e', 'startup', '--env-config', '~/.nu/env.nu', '--config', '~/.nu/config.nu' }
+config.default_prog = { 'nu', '-e', 'startup-hook', '--env-config', '~/.nu/env.nu', '--config', '~/.nu/config.nu' }
 
 -- and finally, return the configuration to wezterm
 return config
