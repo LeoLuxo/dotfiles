@@ -5,27 +5,26 @@ export def l [] {
 export alias please = sudo -d nu -c (history | last 1 | get command | into string)
 export alias pls = please
 
+export def graph [] {
+	let fmt = "format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'"
+	git log --graph --abbrev-commit --decorate --all --format=($fmt)
+}
 
 # Setup one-time hook
 export def --env hook [
 	hook: string
 	command: string
-	--persistent (-p)
 	--debug
 ] {
-	if $persistent {
-		
-	} else {
-		let id = random uuid
-		let payload = [
-			$"($command) #($id)",
-			$"$env.config.hooks = \($env.config.hooks | update ($hook) {filter {|x| $\"\($x)\" !~ '#($id)'}})"
-		]
-		
-		$env.config.hooks = ($env.config.hooks | update $hook {
-			append $payload
-		})
-	}
+	let id = random uuid
+	let payload = [
+		$"($command) #($id)",
+		$"$env.config.hooks = \($env.config.hooks | update ($hook) {filter {|x| $\"\($x)\" !~ '#($id)'}})"
+	]
+	
+	$env.config.hooks = ($env.config.hooks | update $hook {
+		append $payload
+	})
 	
 	if $debug {
 		print ($env.config.hooks | get $hook)
