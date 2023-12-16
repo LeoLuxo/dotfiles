@@ -1,6 +1,6 @@
 
 export-env {
-	$env.DOTFILES = (["~", ".dotfiles"] | path join)
+	$env.DOTFILES = ([$env.USERPROFILE, ".dotfiles"] | path join)
 	$env.DOTFILES_TEMP = ([$env.TEMP, ".dotfiles"] | path join)
 }
 
