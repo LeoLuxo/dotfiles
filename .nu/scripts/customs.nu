@@ -5,6 +5,9 @@ export def l [] {
 export alias please = sudo -d nu -c (history | last 1 | get command | into string)
 export alias pls = please
 
+export alias df = dotfiles
+export def dfdf [] {dotfiles download; dotfiles apply}
+
 export def graph [] {
 	let fmt = "format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'"
 	git log --graph --abbrev-commit --decorate --all --format=($fmt)
@@ -58,7 +61,7 @@ def reload-time [] {
 
 export def print-startup [] {
 	print $"\n(banner)\n\n(startup-time)\n\n(delimiter)\n"
-9999999999999999999999999099999999999999999999}
+}
 
 export def print-reload [] {
 	print $"\n(ansi green)Reload successful!\n(reload-time)\n"
