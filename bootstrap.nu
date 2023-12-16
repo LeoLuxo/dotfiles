@@ -1,8 +1,31 @@
-let bootstrap_file = (mktemp -t)
-http get --raw "https://raw.githubusercontent.com/LeoLuxo/dotfiles/nu/.nu/scripts/dotfiles.nu" | save $bootstrap_file --force
+let source_link = "https://raw.githubusercontent.com/LeoLuxo/dotfiles/nu/.nu/scripts/dotfiles.nu"
+let destination = (mktemp -t)
 
-nu -c $"use ($bootstrap_file); dotfiles download -f; dotfiles apply"
+def printc [
+	text: string
+	maincolor?: string
+] {
+	mut color = (ansi blue)
+	if $maincolor != null {
+		$color = $maincolor
+	}
+	print (
+		($color + $text + (ansi reset))
+		| str replace -a '<' $"(ansi reset)(ansi magenta_italic)"
+		| str replace -a '>' $"(ansi reset)($color)"
+	)
+}
 
-rm $bootstrap_file
+printc $"Downloading <($source_link)> into <($destination)>..."
 
-print $"(ansi red)DON'T FORGET TO RELOAD(ansi reset)"
+http get --raw $source_link | save $destination --force
+
+printc $"Sourcing <($destination)>..."
+nu -c $"source ($destination); download -f"
+
+printc $"Deleting <($destination)>..."
+rm --permanent $destination
+
+printc $"Done!" (ansi green)
+
+printc $"\nDON'T FORGET TO RELOAD" (ansi red)
