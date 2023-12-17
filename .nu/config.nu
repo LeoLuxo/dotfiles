@@ -244,7 +244,8 @@ $env.config = {
 		env_change: {
 			PWD: [{|before, after| null }] # run if the PWD environment is different since the last repl input
 		}
-		display_output: "if (term size).columns >= 100 { table -e } else { table }" # run to display the output of a pipeline
+		# display_output: "if (term size).columns >= 100 { table -e } else { table }" # run to display the output of a pipeline
+		display_output: "table" # run to display the output of a pipeline
 		command_not_found: { null } # return an error message when a command is not found
 	}
 
@@ -480,40 +481,9 @@ $env.config = {
 			event: {edit: movetolinestart}
 		}
 		{
-			name: move_to_line_end_or_take_history_hint
-			modifier: none
-			keycode: end
-			mode: [emacs, vi_normal, vi_insert]
-			event: {
-				until: [
-					{send: historyhintcomplete}
-					{edit: movetolineend}
-				]
-			}
-		}
-		{
-			name: move_to_line_end_or_take_history_hint
-			modifier: control
-			keycode: char_e
-			mode: [emacs, vi_normal, vi_insert]
-			event: {
-				until: [
-					{send: historyhintcomplete}
-					{edit: movetolineend}
-				]
-			}
-		}
-		{
-			name: move_to_line_start
-			modifier: control
-			keycode: home
-			mode: [emacs, vi_normal, vi_insert]
-			event: {edit: movetolinestart}
-		}
-		{
 			name: move_to_line_end
 			modifier: control
-			keycode: end
+			keycode: char_s
 			mode: [emacs, vi_normal, vi_insert]
 			event: {edit: movetolineend}
 		}

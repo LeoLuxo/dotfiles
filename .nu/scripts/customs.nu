@@ -68,7 +68,7 @@ export def print-reload [] {
 }
 
 export def --env startup-hook [] {
-	hook pre_prompt $"print-startup"
+	hook pre_prompt $"sleep 10ms; print-startup"
 }
 
 export def --env reload [
@@ -76,6 +76,7 @@ export def --env reload [
 ] {
 	if $hard {
 		wezterm cli split-pane | null
+		sleep 10ms
 		wezterm cli kill-pane --pane-id $env.WEZTERM_PANE
 	} else {
 		print $"(ansi red)Reloading...(ansi reset)"
@@ -87,7 +88,6 @@ export def --env reload [
 			"print-reload"
 		] | str join "; "
 		
-		# wezterm cli send-text $"hook pre_prompt \"($payload)\"\n"
 		hook pre_prompt $"($payload)"
 	}
 }

@@ -31,8 +31,9 @@ $env.ENV_CONVERSIONS = {
 
 # Custom
 
-# Homogeanize path to fix compat issues
+# Homogeanize env to fix compat issues
 $env.PATH = $env.Path
+$env.HOME = $env.USERPROFILE
 
 # Directories to search for scripts when calling source or use
 $env.NU_LIB_DIRS = [
