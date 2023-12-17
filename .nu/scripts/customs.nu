@@ -1,3 +1,5 @@
+
+# General
 export def l [] {
 	ls | sort-by type name -ni | grid -c
 }
@@ -5,15 +7,34 @@ export def l [] {
 export alias please = sudo -d nu -c (history | last 1 | get command | into string)
 export alias pls = please
 
+
+
+# Dotfiles
 export alias df = dotfiles
 export def dfdf [] {dotfiles download; dotfiles apply}
 
+
+
+# Git
 export def graph [] {
 	let fmt = "format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'"
 	git log --graph --abbrev-commit --decorate --all --format=($fmt)
 }
 
-# Setup one-time hook
+export def "git yeet" [
+	--untracked (-u)
+] {
+	if $untracked {
+		git add .
+	}
+	let changes = (git diff --name-only | split row '\n' | path basename)
+	git commit -am $"Update ($changes | str join ', ')"
+	git push
+}
+
+
+
+# Special
 export def --env hook [
 	hook: string
 	command: string
@@ -34,7 +55,34 @@ export def --env hook [
 	}
 }
 
-# Startup banner
+export def --env startup-hook [] {
+	hook pre_prompt $"sleep 10ms; print-startup"
+}
+
+export def --env reload [
+	--hard (-h)
+] {
+	if $hard {
+		wezterm cli split-pane | null
+		sleep 10ms
+		wezterm cli kill-pane --pane-id $env.WEZTERM_PANE
+	} else {
+		print $"(ansi red)Reloading...(ansi reset)"
+		$env.last-reload = (date now)
+		
+		let payload = [
+			"source ($nu.env-path)",
+			"source ($nu.config-path)",
+			"print-reload"
+		] | str join "; "
+		
+		hook pre_prompt $"($payload)"
+	}
+}
+
+
+
+# Startup and reload sequence libs
 use std [ellie, repeat]
 
 alias dope-gradient = ansi gradient --fgstart '0x40c9ff' --fgend '0xe81cff'
@@ -65,29 +113,4 @@ export def print-startup [] {
 
 export def print-reload [] {
 	print $"\n(ansi green)Reload successful!\n(reload-time)\n"
-}
-
-export def --env startup-hook [] {
-	hook pre_prompt $"sleep 10ms; print-startup"
-}
-
-export def --env reload [
-	--hard (-h)
-] {
-	if $hard {
-		wezterm cli split-pane | null
-		sleep 10ms
-		wezterm cli kill-pane --pane-id $env.WEZTERM_PANE
-	} else {
-		print $"(ansi red)Reloading...(ansi reset)"
-		$env.last-reload = (date now)
-		
-		let payload = [
-			"source ($nu.env-path)",
-			"source ($nu.config-path)",
-			"print-reload"
-		] | str join "; "
-		
-		hook pre_prompt $"($payload)"
-	}
 }
