@@ -29,7 +29,7 @@ export def "git yeet" [
 	if $untracked {
 		git add .
 	}
-	let changes = (git diff --name-only | split row '\n' | path basename)
+	let changes = (git diff --name-only | split row --regex '[\r\n]{1,2}' | where not ($it | is-empty) | path basename)
 	git commit -am $"Yeet ($changes | str join ', ')"
 	git push
 }
