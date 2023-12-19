@@ -45,10 +45,12 @@ $env.NU_PLUGIN_DIRS = [
 	("~/.nu" | path join "plugins")
 ]
 
-
 # Scoop
 $env.SCOOP = "C:/Scoop/"
 $env.SCOOP_GLOBAL = "C:/ProgramData/scoop/"
+
+# Coq
+$env.COQBIN = ([$env.SCOOP, "apps/coq/current/bin/"] | path join)
 
 # Oh-my-posh
 oh-my-posh init nu --config "~/.nu/ohmyposh/themes/peppy.omp.json" --print | save ~/.nu/ohmyposh/_ohmyposh.nu --force

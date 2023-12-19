@@ -735,14 +735,8 @@ $env.config = {
 
 # Custom settings
 
-# Override default nu command
-const nu_args = "--env-config ~/.nu/env.nu --config ~/.nu/config.nu"
-alias nu = ^nu $nu_args
-
-
 # Oh-my-posh
 source ~/.nu/ohmyposh/_ohmyposh.nu
-
 
 # Scripts / Aliases / Addons
 source addons/rusty-paths.nu
@@ -757,6 +751,18 @@ use completions/scoop-completions.nu *
 
 # My custom scripts
 source keybinds.nu
-use customs.nu *
 use dotfiles.nu
+use customs.nu *
+
+
+
+# Override default nu command
+const nu_args = "--env-config ~/.nu/env.nu --config ~/.nu/config.nu"
+alias nu = ^nu $nu_args
+
+# Scoop
+# scoop shim add coq_makefile ([$env.COQBIN, "coq_makefile.exe"] | path join)
+
+
+
 

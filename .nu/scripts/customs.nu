@@ -1,11 +1,13 @@
 
 # General
 export def l [] {
-	ls | sort-by type name -ni | grid -c
+	ls | sort-by type name --natural --ignore-case | grid --color
 }
 
-export alias please = sudo -d nu -c (history | last 1 | get command | into string)
+export alias please = sudo --direct nu --command (history | last 1 | get command | into string)
 export alias pls = please
+
+export alias explorer = ^explorer .
 
 
 
@@ -28,7 +30,7 @@ export def "git yeet" [
 		git add .
 	}
 	let changes = (git diff --name-only | split row '\n' | path basename)
-	git commit -am $"Update ($changes | str join ', ')"
+	git commit -am $"Yeet ($changes | str join ', ')"
 	git push
 }
 
