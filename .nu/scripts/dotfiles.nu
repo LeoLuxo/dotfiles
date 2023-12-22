@@ -71,7 +71,7 @@ export def download [
 
 
 
-export def get-os [] {
+def get-os [] {
 	match $env.OS {
 		"Windows_NT" => {platform:"local" name:"Windows"},
 		_ if "OSTYPE" in $env and $env.OSTYPE == "linux-gnu" => {
@@ -105,8 +105,6 @@ export def patch [
 	file? # File to patch
 	--info (-i) # Print current info instead of patching
 	--dry (-d) # Don't save the file and only return the result instead
-	--no-warn (-w) # Don't warn about potential bad patches
-	--error (-e) # Error out instead of warning
 ] {
 	let os = get-os | str downcase platform name
 	let user = $env.USERNAME | str downcase
