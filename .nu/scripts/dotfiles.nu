@@ -92,25 +92,30 @@ export def get-os [] {
 # 
 # OS delimiter, OS can be any combination of platform & name:
 # (* OS=wsl ubuntu | lorem ipsum *)
-# Line wide:
+# Multiline:
 # ==(* OS=windows *)==
-# ==(* END *)==
+# ==(* OS END *)==
 #
 # USER delimiter:
 # (* USER=neon | lorem ipsum *)
-# Line wide:
+# Multiline:
 # ==(* USER=pollux *)==
-# ==(* END *)==
+# ==(* USER END *)==
 export def patch [
 	file? # File to patch
 	--info (-i) # Print current info instead of patching
+	--dry (-d) # Don't save the file and only return the result instead
+	--no-warn (-w) # Don't warn about potential bad patches
+	--error (-e) # Error out instead of warning
 ] {
 	let os = get-os | str downcase platform name
 	let user = $env.USERNAME | str downcase
+	let dirname = $file | path dirname
 	
 	if $info {
 		print $"OS=($os.platform) ($os.name)"
 		print $"USER=($user)"
+		print $"[dirname=($dirname)]"
 		return
 	}
 	
@@ -119,51 +124,56 @@ export def patch [
 	}
 	
 	let linewide_left = '^.*?==*=\(\*\s*'
-	let linewide_right = '\s*\*\)==*=.*?$'
+	let linewide_right = '\s*\*\)==*=.*?$\n?'
+	let multi_line = '(?s)(.*?)(?s)'	
 	
-	let os_keep = ('OS\s*=\s*(?:' + $os.platform + '\s+' + $os.name + '|' + $os.platform + '|' + $os.name + ')')
+	let os_keep = 'OS\s*=\s*(?:' + $os.platform + '\s+' + $os.name + '|' + $os.platform + '|' + $os.name + ')'
 	let os_line_any = $linewide_left + 'OS (?:KEEP|REMOVE)' + $linewide_right
 	let os_line_keep = $linewide_left + 'OS KEEP' + $linewide_right
 	let os_line_remove = $linewide_left + 'OS REMOVE' + $linewide_right
+	let os_end_line = $linewide_left + 'OS END' + $linewide_right
+	let os_single_keep = '\(\*\s*OS KEEP\s*\|(.*?)\*\)'
+	let os_single_remove = '\(\*\s*OS REMOVE\s*\|(.*?)\*\)'
 	
+	let user_keep = 'USER\s*=\s*' + $user
 	let user_line_any = $linewide_left + 'USER (?:KEEP|REMOVE)' + $linewide_right
+	let user_line_keep = $linewide_left + 'USER KEEP' + $linewide_right
+	let user_line_remove = $linewide_left + 'USER REMOVE' + $linewide_right
+	let user_end_line = $linewide_left + 'USER END' + $linewide_right
+	let user_single_keep = '\(\*\s*USER KEEP\s*\|(.*?)\*\)'
+	let user_single_remove = '\(\*\s*USER REMOVE\s*\|(.*?)\*\)'
 	
-	let end_line = $linewide_left + 'END' + $linewide_right
-	
-	let multi_line = '(?s)(.*?)(?s)'
+	let include = '(?:' + $linewide_left + 'INCLUDE\s*(?<file>.*?)' + $linewide_right + '|(?<rest>.*))'
 	
 	open $file
-	| inspect
-	| str replace --all --regex $os_keep 'OS KEEP'
-	| str replace --all --regex ('OS\s*=\s*\S*') 'OS REMOVE'
-	| inspect
-	# Add END before all OS-line delimiters
-	| str replace --all --multiline --regex $os_line_any "==(*END*)==\n$0"
-	| inspect
-	| str replace --all --multiline --regex ($os_line_keep + $multi_line + $end_line) "$1"
-	| inspect
-	| str replace --all --multiline --regex ($os_line_remove + $multi_line + $end_line) ""
-	| inspect
+	# | inspect
+	| str replace --all --multiline --regex '(?:\r\n|\n)' "\n"
+	# Multiline OS
+	| str replace --all --regex $os_keep "OS KEEP"
+	| str replace --all --regex ('OS\s*=\s*\S*') "OS REMOVE"
+	| str replace --all --multiline --regex $os_line_any "==(*OS END*)==\n$0"
+	| str replace --all --multiline --regex ($os_line_remove + $multi_line + $os_end_line) ""
+	| str replace --all --multiline --regex ($os_line_keep) ""
+	| str replace --all --multiline --regex ($os_end_line) ""
+	# Multiline USER
+	| str replace --all --regex $user_keep "USER KEEP"
+	| str replace --all --regex ('USER\s*=\s*\S*') "USER REMOVE"
+	| str replace --all --multiline --regex $user_line_any "==(*USER END*)==\n$0"
+	| str replace --all --multiline --regex ($user_line_remove + $multi_line + $user_end_line) ""
+	| str replace --all --multiline --regex ($user_line_keep) ""
+	| str replace --all --multiline --regex ($user_end_line) ""
+	# Single OS
+	| str replace --all --regex $os_single_keep "$1"
+	| str replace --all --regex $os_single_remove ""
+	# Single USER
+	| str replace --all --regex $user_single_keep "$1"
+	| str replace --all --regex $user_single_remove ""
+	# Include file
+	| lines
+	| parse --regex $include
+	| each --keep-empty {|e| if ($e.file | is-empty) {$e.rest} else {cd $dirname; open $e.file}}
+	| str join "\n"
+	# Save or output
+	| if $dry {$in} else {$in | save $file --force}
 	
-	
-	
-	# | str replace --all --multiline --regex ('(?i)^.*?==*=\(\*\s*OS\s*=\s*' + $os.platform + '\s+' + $os.name + '\s*\*\)==*=.*?$\r?\n?(?s)(.*?)(?s)\r?\n?^.*?==*=\(\*.*?\S+.*?\*\)==*=.*?$') '$1'
-	# | inspect
-	# | str replace --all --multiline --regex ('(?i)^.*?==*=\(\*\s*OS\s*=\s*' + $os.platform + '\s*\*\)==*=.*?$\r?\n?(?s)(.*?)(?s)\r?\n?^.*?==*=\(\*.*?\S+.*?\*\)==*=.*?$') '$1'
-	# | inspect
-	# | str replace --all --multiline --regex ('(?i)^.*?==*=\(\*\s*OS\s*=\s*' + $os.name + '\s*\*\)==*=.*?$\r?\n?(?s)(.*?)(?s)\r?\n?^.*?==*=\(\*.*?\S+.*?\*\)==*=.*?$') '$1'
-	# | inspect
-	# | str replace --all --multiline --regex ('(?i)^.*?==*=\(\*\s*USER\s*=\s*' + $user + '\s*\*\)==*=.*?$\r?\n?(?s)(.*?)(?s)\r?\n?^.*?==*=\(\*.*?\S+.*?\*\)==*=.*?$') '$1'
-	# | inspect
-	# | str replace --all --multiline --regex ('(?i)^.*?==*=\(\*.*?\S+.*?\*\)==*=.*?$') ''
-	# | inspect
-	# | str replace --all --regex ('(?i)\(\*\s*OS\s*=\s*' + $os.platform + '\s+' + $os.name + '\s*\|\s*(.*?)\*\)') '$1'
-	# | str replace --all --regex ('(?i)\(\*\s*OS\s*=\s*' + $os.platform + '\s*\|\s*(.*?)\*\)') '$1'
-	# | str replace --all --regex ('(?i)\(\*\s*OS\s*=\s*' + $os.name + '\s*\|\s*(.*?)\*\)') '$1'
-	# | str replace --all --regex ('(?i)\(\*\s*OS\s*=\s*.*?\s*\|\s*.*?\*\)') ''
-	# | inspect
-	# | str replace --all --regex ('(?i)\(\*\s*USER=' + $user + '\s*\|\s*(.*?)\*\)') '$1'
-	# | str replace --all --regex ('(?i)\(\*\s*USER=.*?\s*\|\s*.*?\*\)') ''
-	# | inspect
-	# | save $file --force
 }
