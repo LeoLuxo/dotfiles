@@ -1,8 +1,8 @@
 hard_tabs = true
 
-# max_width = 100
+max_width = 120
 
-# fn_args_layout = "Compressed"
+# fn_params_layout = "Compressed"
 # use_small_heuristics = "Max"
 
 # enum_discrim_align_threshold = 20
@@ -10,6 +10,8 @@ hard_tabs = true
 
 # indent_style = "Visual"
 
+overflow_delimited_expr = true
+
 format_code_in_doc_comments = true
 wrap_comments = true
-# comment_width = 100
+comment_width = 80

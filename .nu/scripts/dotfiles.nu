@@ -1,7 +1,6 @@
 
 export-env {
 	$env.DOTFILES = ([$env.HOME, ".dotfiles"] | path join)
-	$env.DOTFILES_TEMP = ([$env.TEMP, ".dotfiles"] | path join)
 }
 
 def confirmation-prompt [
@@ -36,6 +35,21 @@ def repo-has-changes [
 	| into bool
 }
 
+def get-os [] {
+	match $env.OS {
+		"Windows_NT" => {platform:"local" name:"Windows"},
+		_ if "OSTYPE" in $env and $env.OSTYPE == "linux-gnu" => {
+			if "WSL_DISTRO_NAME" in $env {
+				{platform:"WSL" name:$env.WSL_DISTRO_NAME}
+			} else {
+				{platform:"unknown" name:"unknown"}
+			}},
+		_ => {platform:"unknown" name:"unknown"},
+	}
+}
+
+
+
 # Download the dotfiles from the repo into $env.DOTFILES.
 # Will prompt if the repo already exists and has uncommitted changes
 export def download [
@@ -69,21 +83,6 @@ export def download [
 	git clone -b nu --single-branch https://github.com/LeoLuxo/dotfiles.git $env.DOTFILES
 }
 
-
-
-def get-os [] {
-	match $env.OS {
-		"Windows_NT" => {platform:"local" name:"Windows"},
-		_ if "OSTYPE" in $env and $env.OSTYPE == "linux-gnu" => {
-			if "WSL_DISTRO_NAME" in $env {
-				{platform:"WSL" name:$env.WSL_DISTRO_NAME}
-			} else {
-				{platform:"unknown" name:"unknown"}
-			}},
-		_ => {platform:"unknown" name:"unknown"},
-	}
-}
-
 # Will patch a given file by preprocessing user and OS -related lines, as well as including extra files
 # 
 # Format:
@@ -111,13 +110,10 @@ export def patch [
 	let dirname = $file | path dirname
 	
 	if $info {
-		print $"OS=($os.platform) ($os.name)"
-		print $"USER=($user)"
-		print $"[dirname=($dirname)]"
-		return
+		return {file:$file dirname:$dirname OS:$os USER:$user}
 	}
 	
-	if $file == null or ($file | path type) != "file" {
+	if ($file | is-empty) or ($file | path type) != "file" {
 		error make {msg: "Given path must be a file", label: {text: "bad file", span: (metadata $file).span}}
 	}
 	
@@ -143,7 +139,9 @@ export def patch [
 	
 	let include = '(?:' + $linewide_left + 'INCLUDE\s*(?<file>.*?)' + $linewide_right + '|(?<rest>.*))'
 	
-	open $file
+	open $file --raw
+	# | inspect
+	| into string
 	# | inspect
 	| str replace --all --multiline --regex '(?:\r\n|\n)' "\n"
 	# Multiline OS
@@ -174,4 +172,32 @@ export def patch [
 	# Save or output
 	| if $dry {$in} else {$in | save $file --force}
 	
+}
+
+
+
+
+export def apply [] {
+	let tmp = mktemp --directory --tmpdir
+	
+	do {
+		cd $env.DOTFILES
+		glob "**" --exclude [**/.git/** **/.gitignore]
+		| path relative-to $env.DOTFILES
+		| where not ($it | is-empty)
+		| each {|e| cp --recursive $e ($tmp | path join $e)}
+	}
+	
+	do {
+		cd $tmp
+		let files = glob "**/*"
+			| path relative-to $tmp
+			| where not ($it | is-empty)
+			| inspect
+		
+		$files | where ($it | path type) == file | each {|e| patch $e --dry} | print
+		
+	}
+	
+	rm -r $tmp
 }

@@ -35,6 +35,9 @@ $env.ENV_CONVERSIONS = {
 $env.PATH = $env.Path
 $env.HOME = $env.USERPROFILE
 
+$env.CARGO_HOME = ($env.HOME | path join ".cargo")
+setx CARGO_HOME "%USERPROFILE%\\.cargo" | null
+
 # Directories to search for scripts when calling source or use
 $env.NU_LIB_DIRS = [
 	("~/.nu" | path join "scripts")
