@@ -100,7 +100,7 @@ export def download [
 # Multiline:
 # ==(* USER=pollux *)==
 # ==(* USER END *)==
-export def patch [
+def patch [
 	file? # File to patch
 	--info (-i) # Print current info instead of patching
 	--dry (-d) # Don't save the file and only return the result instead
@@ -114,7 +114,7 @@ export def patch [
 	}
 	
 	if ($file | is-empty) or ($file | path type) != "file" {
-		error make {msg: "Given path must be a file", label: {text: "bad file", span: (metadata $file).span}}
+		error make {msg: $"Given path '($file)' must be a file", label: {text: "bad file", span: (metadata $file).span}}
 	}
 	
 	let linewide_left = '^.*?==*=\(\*\s*'
@@ -140,9 +140,7 @@ export def patch [
 	let include = '(?:' + $linewide_left + 'INCLUDE\s*(?<file>.*?)' + $linewide_right + '|(?<rest>.*))'
 	
 	open $file --raw
-	# | inspect
 	| into string
-	# | inspect
 	| str replace --all --multiline --regex '(?:\r\n|\n)' "\n"
 	# Multiline OS
 	| str replace --all --regex $os_keep "OS KEEP"
@@ -167,7 +165,19 @@ export def patch [
 	# Include file
 	| lines
 	| parse --regex $include
-	| each --keep-empty {|e| if ($e.file | is-empty) {$e.rest} else {cd $dirname; open $e.file}}
+	# | inspect
+	| each --keep-empty {|e|
+		if ($e.file | is-empty) {
+			$e.rest
+		} else {
+			cd $dirname;
+			try {
+				open $e.file
+			} catch {
+				error make {msg: $"The given file '($file)' has an invalid INCLUDE", label: {text: "bad file", span: (metadata $file).span}}
+			}
+		}
+	}
 	| str join "\n"
 	# Save or output
 	| if $dry {$in} else {$in | save $file --force}
@@ -179,24 +189,36 @@ export def patch [
 
 export def apply [] {
 	let tmp = mktemp --directory --tmpdir
+	let exclude = [**/.git/** **/.gitignore]
 	
 	do {
 		cd $env.DOTFILES
-		glob "**" --exclude [**/.git/** **/.gitignore]
+		glob "*" --no-file --exclude $exclude
 		| path relative-to $env.DOTFILES
-		| where not ($it | is-empty)
 		| each {|e| cp --recursive $e ($tmp | path join $e)}
 	}
 	
 	do {
 		cd $tmp
-		let files = glob "**/*"
-			| path relative-to $tmp
-			| where not ($it | is-empty)
-			| inspect
-		
-		$files | where ($it | path type) == file | each {|e| patch $e --dry} | print
-		
+		glob "**" --exclude $exclude
+		| path relative-to $tmp
+		| where not ($it | is-empty)
+		| each {|e|
+			match ($e | path type) {
+				"dir" => {
+					mkdir ($env.HOME | path join $e)
+				}
+				"file" => {
+					if not ($e | str ends-with "dotfiles.nu") {
+						patch $e;
+					}
+					cp $e ($env.HOME | path join $e)
+				}
+				_ => {}
+			};
+			$e
+		}
+		| print $"(ansi blue)($in | where ($it | path type) == file | length) files in ($in | where ($it | path type) == dir | length) folders copied.(ansi reset)"
 	}
 	
 	rm -r $tmp
