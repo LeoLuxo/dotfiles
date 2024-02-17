@@ -77,10 +77,10 @@ export def download [
 			}
 		}
 		
-		rm -r $env.DOTFILES
+		rm --recursive $env.DOTFILES
 	}
 	
-	git clone -b nu --single-branch https://github.com/LeoLuxo/dotfiles.git $env.DOTFILES
+	git clone --branch nu --single-branch https://github.com/LeoLuxo/dotfiles.git $env.DOTFILES
 }
 
 # Will patch a given file by preprocessing user and OS -related lines, as well as including extra files
@@ -221,5 +221,5 @@ export def apply [] {
 		| print $"(ansi blue)($in | where ($it | path type) == file | length) files in ($in | where ($it | path type) == dir | length) folders copied.(ansi reset)"
 	}
 	
-	rm -r $tmp
+	rm --recursive $tmp
 }

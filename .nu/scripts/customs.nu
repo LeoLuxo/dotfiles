@@ -12,8 +12,9 @@ export alias explorer = ^explorer .
 
 
 # Dotfiles
+export def "dotfiles update" [] {dotfiles download; dotfiles apply; reload --hard}
 export alias df = dotfiles
-export def dfdf [] {dotfiles download; dotfiles apply}
+export alias dfu = dotfiles update
 
 
 
