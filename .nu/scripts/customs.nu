@@ -13,7 +13,7 @@ export alias explorer = ^explorer .
 
 # Dotfiles
 export def "dotfiles update" [] {dotfiles download; dotfiles apply; reload --hard}
-export alias df = dotfiles
+export def "dotfiles yeet" [] {cd $env.DOTFILES; git yeet}
 export alias dfu = dotfiles update
 
 
@@ -67,7 +67,7 @@ export def --env reload [
 ] {
 	if $hard {
 		wezterm cli split-pane | null
-		sleep 10ms
+		sleep 50ms
 		wezterm cli kill-pane --pane-id $env.WEZTERM_PANE
 	} else {
 		print $"(ansi red)Reloading...(ansi reset)"
