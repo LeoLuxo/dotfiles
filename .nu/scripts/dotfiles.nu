@@ -223,3 +223,14 @@ export def apply [] {
 	
 	rm --recursive $tmp
 }
+
+
+
+
+export def "dotfiles update" [
+	--force (-f) # Force deletion of $env.DOTFILES and override potential prompt
+] {
+	dotfiles download $force
+	dotfiles apply
+	reload --hard
+}

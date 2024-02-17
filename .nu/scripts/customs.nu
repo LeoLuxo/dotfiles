@@ -12,7 +12,6 @@ export alias explorer = ^explorer .
 
 
 # Dotfiles
-export def "dotfiles update" [] {dotfiles download; dotfiles apply; reload --hard}
 export def "dotfiles yeet" [] {cd $env.DOTFILES; git yeet}
 export alias dfu = dotfiles update
 
