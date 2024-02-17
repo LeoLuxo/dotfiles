@@ -1,4 +1,5 @@
 
+
 export-env {
 	$env.DOTFILES = ([$env.HOME, ".dotfiles"] | path join)
 }
@@ -244,6 +245,5 @@ export def update [
 	
 	download --force
 	apply
-	use customs.nu reload
 	reload --hard
 }
