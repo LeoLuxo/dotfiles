@@ -48,6 +48,28 @@ def get-os [] {
 	}
 }
 
+def download-check [] {
+	let result = true
+	
+	let repo_dialog = {confirmation-prompt $"(ansi red)($env.DOTFILES) repo has uncommitted changes, are you sure you want to overwrite?(ansi reset)"}
+	let repo_override_cancel = (repo-exists $env.DOTFILES) and (repo-has-changes $env.DOTFILES) and (not (do $repo_dialog))
+	
+	if $repo_override_cancel {
+		print $"(ansi yellow)Aborted.(ansi reset)"
+		return false
+	}
+	
+	let folder_dialog = {confirmation-prompt $"(ansi red)($env.DOTFILES) folder is non-empty, are you sure you want to overwrite?(ansi reset)"}
+	let folder_override_cancel = not ((folder-empty $env.DOTFILES) or (do $folder_dialog))
+	
+	if $folder_override_cancel {
+		print $"(ansi yellow)Aborted.(ansi reset)"
+		return false
+	}
+	
+	return true
+}
+
 
 
 # Download the dotfiles from the repo into $env.DOTFILES.
@@ -59,22 +81,8 @@ export def download [
 	
 	# If user chose to force override, or if the folder doesn't exist anyway, continue
 	if $folder_exist {
-		if (not $force) {
-			let repo_dialog = {confirmation-prompt $"(ansi red)($env.DOTFILES) repo has uncommitted changes, are you sure you want to overwrite?(ansi reset)"}
-			let repo_override_cancel = (repo-exists $env.DOTFILES) and (repo-has-changes $env.DOTFILES) and (not (do $repo_dialog))
-			
-			if $repo_override_cancel {
-				print $"(ansi yellow)Aborted.(ansi reset)"
-				return
-			}
-			
-			let folder_dialog = {confirmation-prompt $"(ansi red)($env.DOTFILES) folder is non-empty, are you sure you want to overwrite?(ansi reset)"}
-			let folder_override_cancel = not ((folder-empty $env.DOTFILES) or (do $folder_dialog))
-			
-			if $folder_override_cancel {
-				print $"(ansi yellow)Aborted.(ansi reset)"
-				return
-			}
+		if ((not $force) and (not download-check)) {
+			return
 		}
 		
 		rm --recursive $env.DOTFILES
@@ -230,7 +238,11 @@ export def apply [] {
 export def update [
 	--force (-f) # Force deletion of $env.DOTFILES and override potential prompt
 ] {
-	download --force=$force
+	if ((not $force) and (not download-check)) {
+		return
+	}
+	
+	download --force
 	apply
 	reload --hard
 }
