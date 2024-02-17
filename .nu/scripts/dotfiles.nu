@@ -244,5 +244,6 @@ export def update [
 	
 	download --force
 	apply
+	use customs.nu reload
 	reload --hard
 }
