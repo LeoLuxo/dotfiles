@@ -227,10 +227,10 @@ export def apply [] {
 
 
 
-export def "dotfiles update" [
+export def update [
 	--force (-f) # Force deletion of $env.DOTFILES and override potential prompt
 ] {
-	dotfiles download $force
-	dotfiles apply
+	download --force=$force
+	apply
 	reload --hard
 }
