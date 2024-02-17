@@ -81,7 +81,7 @@ export def download [
 	
 	# If user chose to force override, or if the folder doesn't exist anyway, continue
 	if $folder_exist {
-		if ((not $force) and (not download-check)) {
+		if (not ($force or (download-check))) {
 			return
 		}
 		
@@ -238,7 +238,7 @@ export def apply [] {
 export def update [
 	--force (-f) # Force deletion of $env.DOTFILES and override potential prompt
 ] {
-	if ((not $force) and (not download-check)) {
+	if (not ($force or (download-check))) {
 		return
 	}
 	
