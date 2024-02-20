@@ -1,0 +1,5 @@
+==(* OS=local windows *)==
+C:\\Scoop\\persist\\nilesoft-shell
+==(* OS=wsl *)==
+null
+==(* OS END *)==
