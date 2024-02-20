@@ -34,6 +34,8 @@ config.color_scheme = 'OneHalfDark'
 config.font_size = 14.0
 config.font = wezterm.font 'Mononoki Nerd Font'
 
+config.prefer_to_spawn_tabs = true
+
 
 
 
@@ -49,19 +51,6 @@ local domains = {
 
 local function basename(path)
 	return path and path:match("([^/\\]+)[/\\]?$") or ""
-end
-
-local function get_cwd(tab)
-	local cwd_raw = tab.active_pane.current_working_dir
-	if cwd_raw == nil then
-		return nil
-	end
-
-	local cwd = cwd_raw:gsub("%%(%x%x)", function(hex)
-		return string.char(tonumber(hex, 16))
-	end)
-
-	return basename(cwd)
 end
 
 
@@ -82,7 +71,7 @@ config.colors = {
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	local domain_info = domains[tab.active_pane.domain_name] or default_domain
-	local cwd = get_cwd(tab)
+	local cwd = basename(tab.active_pane.current_working_dir.path)
 
 	local max = max_width - 5 - wezterm.column_width(domain_info.name)
 
