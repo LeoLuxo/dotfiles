@@ -43,6 +43,10 @@ def path-count [] {
 	}}
 }
 
+def debug-path-type [] {
+	each {|e| print $"($e): ($e | path type)"}
+}
+
 def get-os [] {
 	match $env.OS {
 		"Windows_NT" => {platform:"local" name:"Windows"},
@@ -205,30 +209,25 @@ export def patch [
 
 export def apply [] {
 	let tmp = mktemp --directory --tmpdir
-	let exclude = [**/.git/** **/.gitignore]
-	
-	# Force file refresh because nu is dumb
-	do {
-		cd $env.DOTFILES
-		glob "**" --no-file
-		| each {|e| ls $e | null}
-		glob "**" --no-dir
-		| each {|e| open $e | null}
-	}
+	let exclude = [**/.git **/.gitignore]
 	
 	# Copy from .dotfiles to temp
+	cp --recursive ($env.DOTFILES | path join "*") $tmp
+	
+	# Remove unwanted files
 	do {
-		cd $env.DOTFILES
-		glob "*" --exclude $exclude
-		| path relative-to $env.DOTFILES
-		| each {|e| cp --recursive $e ($tmp | path join $e)}
+		cd $tmp;
+		$exclude | each {|e|
+			glob $e | each {|e|
+				rm --recursive $e
+			}
+		}
 	}
 	
 	# Patch in temp
 	do {
-		cd $tmp
-		glob "**" --exclude $exclude
-		| path relative-to $tmp
+		cd $tmp;
+		glob "**"
 		| where not ($it | is-empty)
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
@@ -245,24 +244,28 @@ export def apply [] {
 		glob "*" --no-file
 		| each {|e| 
 			let destination = do {cd $e; open "_destination"}
-			cp --recursive $"($e)/*" $destination
 			
-			glob "**" --exclude $exclude
+			rm ($e | path join "_destination");
+			cp --recursive ($e | path join "*") $destination
+			
+			glob "**"
 			| path-count
 			| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied to (ansi purple)($destination)(ansi blue).(ansi reset)"
 		}
 		
 	}
 	
+	rm --recursive ($tmp | path join "_copy")
+	
 	
 	# Copy into home
 	do {
-		cd $tmp
-		cp --recursive $"($tmp)/*" $env.HOME
+		cd $tmp;
+		cp --recursive ./* $env.HOME;
 		
-		glob "**" --exclude $exclude
+		glob "**"
 		| path-count
-		| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied to (ansi purple)home(ansi blue).(ansi reset)"
+		| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied to (ansi purple)HOME \(($env.HOME)\)(ansi blue).(ansi reset)"
 	}
 	
 	rm --recursive $tmp
