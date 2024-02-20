@@ -200,6 +200,16 @@ export def apply [] {
 	let tmp = mktemp --directory --tmpdir
 	let exclude = [**/.git/** **/.gitignore]
 	
+	# Force file refresh because nu is dumb
+	do {
+		cd $env.DOTFILES
+		glob "**" --no-file
+		| each {|e| ls $e | null}
+		glob "**" --no-dir
+		| each {|e| open $e | null}
+	}
+	
+	# Copy from .dotfiles to temp
 	do {
 		cd $env.DOTFILES
 		glob "*" --no-file --exclude $exclude
@@ -207,6 +217,7 @@ export def apply [] {
 		| each {|e| cp --recursive $e ($tmp | path join $e)}
 	}
 	
+	# Path in temp and copy into home
 	do {
 		cd $tmp
 		glob "**" --exclude $exclude
@@ -235,7 +246,6 @@ export def apply [] {
 
 
 
-
 export def update [
 	--force (-f) # Force deletion of $env.DOTFILES and override potential prompt
 ] {
@@ -243,7 +253,7 @@ export def update [
 		return
 	}
 	
-	download --force
-	apply
+	# download --force
+	# apply
 	reload --hard
 }
