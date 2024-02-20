@@ -5,8 +5,8 @@
 	background
 	{
 		color = default
-		opacity = 90
-		effect = [3, #00AAFF, 80]
+		opacity = 30
+		effect = 2
 	}
 	image.align = 2
 }

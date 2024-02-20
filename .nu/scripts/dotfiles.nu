@@ -244,7 +244,10 @@ export def apply [] {
 		cd $copy_path
 		glob "*" --no-file
 		| each {|e| 
-			let destinations = do {cd $e; open "_destinations" | split lines}
+			let destinations = do {
+				cd $e;
+				open "_destinations" | split lines | where not ($it | is-empty)
+			}
 			rm ($e | path join "_destinations");
 			
 			$destinations | each {|f|
