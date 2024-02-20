@@ -4,7 +4,7 @@ export def l [] {
 	ls | sort-by type name --natural --ignore-case | grid --color
 }
 
-export alias please = sudo --direct nu --command (history | last 1 | get command | into string)
+export alias please = sudo --direct nu --commands ...(history | last 1 | get command | into string)
 export alias pls = please
 
 export alias explorer = ^explorer .
