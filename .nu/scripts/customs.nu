@@ -9,6 +9,10 @@ export alias pls = please
 
 export alias explorer = ^explorer .
 
+# ==(* OS=windows *)==
+export alias cat = open
+# ==(* OS END *)==
+
 
 
 # Dotfiles
