@@ -16,8 +16,10 @@ export alias cat = open
 
 
 # Dotfiles
-export def "dotfiles yeet" [--untracked (-u)] {cd $env.DOTFILES; git yeet --untracked=$untracked}
+export alias dfa = dotfiles apply
 export alias dfu = dotfiles update
+
+export def "dotfiles yeet" [--untracked (-u)] {cd $env.DOTFILES; git yeet --untracked=$untracked}
 
 
 

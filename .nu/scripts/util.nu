@@ -1,5 +1,10 @@
 
 
+# Other
+
+export def "split lines" [] {
+	split row -r '(\n|\r)+'
+} 
 
 
 # Special

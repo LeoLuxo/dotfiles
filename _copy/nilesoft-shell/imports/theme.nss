@@ -1,12 +1,12 @@
 ﻿theme
 {
 	name = "modern"
-	dark = sys.dark
+	dark = true
 	background
 	{
 		color = default
-		opacity = sys.is11 ? default : 90
-		effect = default
+		opacity = 90
+		effect = [3, #00AAFF, 80]
 	}
 	image.align = 2
 }

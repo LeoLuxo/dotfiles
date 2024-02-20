@@ -239,23 +239,26 @@ export def apply [] {
 	}
 	
 	# Copy special destinations
+	let copy_path =  ($tmp | path join "_copy")
 	do {
-		cd ($tmp | path join "_copy")
+		cd $copy_path
 		glob "*" --no-file
 		| each {|e| 
-			let destination = do {cd $e; open "_destination"}
+			let destinations = do {cd $e; open "_destinations" | split lines}
+			rm ($e | path join "_destinations");
 			
-			rm ($e | path join "_destination");
-			cp --recursive ($e | path join "*") $destination
-			
-			glob "**"
-			| path-count
-			| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied to (ansi purple)($destination)(ansi blue).(ansi reset)"
+			$destinations | each {|f|
+				cp --recursive ($e | path join "*") $f
+				
+				glob "**"
+				| path-count
+				| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied from (ansi orange)($e | path relative-to $copy_path)(ansi blue) to (ansi purple)($f)(ansi blue).(ansi reset)"
+			}
 		}
 		
 	}
 	
-	rm --recursive ($tmp | path join "_copy")
+	rm --recursive $copy_path
 	
 	
 	# Copy into home
