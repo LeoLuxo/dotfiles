@@ -255,7 +255,5 @@ export def update [
 	
 	download --force
 	apply
-	
-	# for some reason this dumbass sends me back to C:/ instead of ~/
 	reload --hard
 }
