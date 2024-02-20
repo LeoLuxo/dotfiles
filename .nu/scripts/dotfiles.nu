@@ -212,7 +212,7 @@ export def apply [] {
 	# Copy from .dotfiles to temp
 	do {
 		cd $env.DOTFILES
-		glob "*" --no-file --exclude $exclude
+		glob "*" --exclude $exclude
 		| path relative-to $env.DOTFILES
 		| each {|e| cp --recursive $e ($tmp | path join $e)}
 	}
