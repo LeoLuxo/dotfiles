@@ -253,7 +253,7 @@ export def update [
 		return
 	}
 	
-	# download --force
-	# apply
+	download --force
+	apply
 	reload --hard
 }
