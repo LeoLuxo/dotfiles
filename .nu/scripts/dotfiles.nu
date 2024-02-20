@@ -252,7 +252,7 @@ export def apply [] {
 				
 				glob "**"
 				| path-count
-				| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied from (ansi orange)($e | path relative-to $copy_path)(ansi blue) to (ansi purple)($f)(ansi blue).(ansi reset)"
+				| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied from (ansi yellow)($e | path relative-to $copy_path)(ansi blue) to (ansi purple)($f)(ansi blue).(ansi reset)"
 			}
 		}
 		
