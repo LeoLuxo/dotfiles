@@ -36,6 +36,13 @@ def repo-has-changes [
 	| into bool
 }
 
+def path-count [] {
+	reduce --fold {files:0, dirs:0} {|it, acc| match ($it | path type) {
+		"file" => {files:$acc.files + 1, dirs:$acc.dirs},
+		"dir"  => {files:$acc.files, dirs:$acc.dirs + 1},
+	}}
+}
+
 def get-os [] {
 	match $env.OS {
 		"Windows_NT" => {platform:"local" name:"Windows"},
@@ -217,31 +224,50 @@ export def apply [] {
 		| each {|e| cp --recursive $e ($tmp | path join $e)}
 	}
 	
-	# Path in temp and copy into home
+	# Patch in temp
 	do {
 		cd $tmp
 		glob "**" --exclude $exclude
 		| path relative-to $tmp
 		| where not ($it | is-empty)
-		| each {|e|
-			match ($e | path type) {
-				"dir" => {
-					mkdir ($env.HOME | path join $e)
-				}
-				"file" => {
-					if not ($e | str ends-with "dotfiles.nu") {
-						patch $e;
-					}
-					cp $e ($env.HOME | path join $e)
-				}
-				_ => {}
-			};
+		| where ($it | path type) == "file"
+		| where not ($it | str ends-with "dotfiles.nu")
+		| each {|e| {
+			patch $e;
 			$e
 		}
-		| print $"(ansi blue)($in | where ($it | path type) == file | length) files in ($in | where ($it | path type) == dir | length) folders copied.(ansi reset)"
+		| print $"(ansi blue)($in | length) files patched.(ansi reset)"
+	}
+	
+	# Copy special destinations
+	do {
+		cd ($tmp | path join "_copy")
+		glob "*" --no-file
+		| each {|e| 
+			let destination = do {cd $e; open "_destination"}
+			cp $"($e)/*" $destination
+			
+			glob "**" --exclude $exclude
+			| path-count
+			| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied to (ansi purple)($destination)(ansi blue).(ansi reset)"
+		}
+		
+	}
+	
+	
+	# Copy into home
+	do {
+		cd $tmp
+		cp $"($tmp)/*" $env.HOME
+		
+		glob "**" --exclude $exclude
+		| path-count
+		| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied to (ansi purple)home(ansi blue).(ansi reset)"
 	}
 	
 	rm --recursive $tmp
+	
+	print $"(ansi green)Done!(ansi reset)"
 }
 
 
