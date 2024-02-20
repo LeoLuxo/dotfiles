@@ -109,7 +109,7 @@ export def download [
 # Multiline:
 # ==(* USER=pollux *)==
 # ==(* USER END *)==
-def patch [
+export def patch [
 	file? # File to patch
 	--info (-i) # Print current info instead of patching
 	--dry (-d) # Don't save the file and only return the result instead
