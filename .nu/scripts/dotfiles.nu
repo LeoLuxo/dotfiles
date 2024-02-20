@@ -38,8 +38,8 @@ def repo-has-changes [
 
 def path-count [] {
 	reduce --fold {files:0, dirs:0} {|it, acc| match ($it | path type) {
-		"file" => {files:$acc.files + 1, dirs:$acc.dirs},
-		"dir"  => {files:$acc.files, dirs:$acc.dirs + 1},
+		"file" => {files: ($acc.files + 1), dirs: $acc.dirs},
+		"dir"  => {files: $acc.files, dirs: ($acc.dirs + 1)},
 	}}
 }
 
