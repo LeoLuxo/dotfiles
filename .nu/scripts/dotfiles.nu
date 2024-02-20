@@ -245,7 +245,7 @@ export def apply [] {
 		glob "*" --no-file
 		| each {|e| 
 			let destination = do {cd $e; open "_destination"}
-			cp $"($e)/*" $destination
+			cp --recursive $"($e)/*" $destination
 			
 			glob "**" --exclude $exclude
 			| path-count
@@ -258,7 +258,7 @@ export def apply [] {
 	# Copy into home
 	do {
 		cd $tmp
-		cp $"($tmp)/*" $env.HOME
+		cp --recursive $"($tmp)/*" $env.HOME
 		
 		glob "**" --exclude $exclude
 		| path-count
