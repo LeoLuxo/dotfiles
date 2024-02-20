@@ -232,7 +232,7 @@ export def apply [] {
 		| where not ($it | is-empty)
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
-		| each {|e| {
+		| each {|e|
 			patch $e;
 			$e
 		}
