@@ -222,6 +222,7 @@ export def apply [
 ] {
 	let tmp = mktemp --directory --tmpdir
 	let exclude = [**/.git **/.gitignore]
+	let patch_exclude = [_reg/**]
 	
 	# Copy from .dotfiles to temp
 	cp --recursive ($env.DOTFILES | path join "*") $tmp
@@ -239,7 +240,7 @@ export def apply [
 	# Patch in temp
 	do {
 		cd $tmp;
-		glob "**"
+		glob "**/*" --no-dir --exclude $patch_exclude
 		| where not ($it | is-empty)
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
@@ -249,6 +250,24 @@ export def apply [
 		}
 		| print $"(ansi blue)($in | length) files patched.(ansi reset)"
 	}
+	
+	# Apply windows registry files
+	let reg_path =  ($tmp | path join "_reg")
+	do {
+		if ((get-os).name | str downcase) == "windows" {
+			cd $reg_path
+			glob "**/*.reg" --no-dir
+			| each {|e|
+				do {^reg import $e} | complete |
+				(if $in.exit_code != 0 {
+					print $"(ansi red)Registry file '($e)' could not be applied.(ansi reset)"
+				}; $in)
+			}
+			| where $it.exit_code == 0
+			| print $"(ansi blue)Applied ($in | length) registry files.(ansi reset)"
+		}
+	}
+	rm --recursive $reg_path
 	
 	# Copy special destinations
 	let copy_path =  ($tmp | path join "_copy")
@@ -276,7 +295,6 @@ export def apply [
 	}
 	rm --recursive $copy_path
 	
-	
 	# Copy into home
 	do {
 		cd $tmp;
@@ -288,7 +306,6 @@ export def apply [
 	}
 	
 	rm --recursive $tmp
-	
 	print $"(ansi green)Done!(ansi reset)"
 	
 	if $restart {
