@@ -753,6 +753,7 @@ use completions/scoop-completions.nu *
 source keybinds.nu
 use utils.nu *
 use dotfiles.nu
+use onetime.nu
 use customs.nu *
 
 

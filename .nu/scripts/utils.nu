@@ -16,6 +16,13 @@ export def "regutil remove" [
 	) + '\].*?(?:\r\n){2}') ''
 }
 
+export def cmd-raw [] {
+	each {|c|
+		^cmd /c $c
+	}
+}
+
+
 
 # Script running
 export def runscript [
