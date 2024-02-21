@@ -5,7 +5,7 @@
 	background
 	{
 		color = default
-		opacity = 30
+		opacity = 50
 		effect = 2
 	}
 	image.align = 2

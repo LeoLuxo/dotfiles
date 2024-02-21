@@ -751,7 +751,7 @@ use completions/scoop-completions.nu *
 
 # My custom scripts
 source keybinds.nu
-use util.nu *
+use utils.nu *
 use dotfiles.nu
 use customs.nu *
 

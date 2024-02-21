@@ -1,13 +1,12 @@
 
 
 # Other
-
 export def "split lines" [] {
 	split row -r '(\n|\r)+'
 } 
 
 
-# Special
+# Hook and reload
 export def --env hook [
 	hook: string
 	command: string
