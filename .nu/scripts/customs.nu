@@ -41,3 +41,16 @@ export def "git yeet" [
 
 
 
+# Start11
+export def "start11 export" [] {
+	let path = "~/.dotfiles/_reg/start11.reg" | path expand
+	
+	^reg export HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8 $path /y
+	
+	open $path --raw
+	| decode utf-8
+	| regutil remove 'HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8\Taskbar'
+	| encode utf-8
+	| save $path --force --raw
+}
+

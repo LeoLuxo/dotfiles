@@ -12,8 +12,20 @@ modify(find="pin*" pos="top" menu="Pin/Unpin")
 modify(where=this.id==id.copy_as_path menu="file manage")
 modify(type="dir.back|drive.back" where=this.id==id.customize_this_folder pos=1 sep="top" menu="file manage")
 
-modify(where=str.equals(this.name, ["open in terminal", "open linux shell here"]) || this.id==id.open_powershell_window_here
-	pos="bottom" menu="Terminal")
+// modify(where=str.equals(this.name, ["open in terminal", "open linux shell here"]) || this.id==id.open_powershell_window_here
+// 	pos="bottom" menu="Terminal")
+
+remove(find = '"open in terminal"')
+remove(find = '"open linux shell here"')
+remove(find = '"open in terminal"')
+remove(find = '"open linux shell here"')
+remove(find = '"view"')
+remove(find = '"sort by"')
+remove(find = '"group by"')
+remove(find = '"refresh"')
+remove(find = '"give access to"')
+remove(find = '"open with code"')
+
 
 modify(mode=mode.multiple
 	where=this.id(
@@ -32,3 +44,7 @@ modify(mode=mode.multiple
 		id.print
 	)
 	pos=1 menu=title.more_options)
+
+// modify(where=str.equals(this.name, [
+// 		"open with code"
+// 	]) sep="top")

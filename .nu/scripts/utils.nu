@@ -3,7 +3,18 @@
 # Other
 export def "split lines" [] {
 	split row -r '(\n|\r)+'
-} 
+}
+
+export def "regutil remove" [
+	key_section: string
+] {
+	str replace --regex --multiline ('(?s)\[' + (
+		$key_section
+		| str replace --all '\' '\\'
+		| str replace --all '.' '\.'
+		| str replace --all '$' '\$'
+	) + '\].*?(?:\r\n){2}') ''
+}
 
 
 # Hook and reload
