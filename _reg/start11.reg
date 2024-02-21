@@ -42,11 +42,17 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Searches]
 "rege"="{F38BF404-1D43-42F2-9305-67DE0B28FC23}\\regedit.exe"
+"blo"="steam://rungameid/960090"
+"firefox"="308046B0AF4A39CB;PrivateBrowsingAUMID"
+"paint"="C:\\Scoop\\apps\\paint.net\\current\\paintdotnet.exe"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\SResults]
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\SResults2]
 "{F38BF404-1D43-42F2-9305-67DE0B28FC23}_regedit.exe"="1"
+"steam://rungameid/960090"="1"
+"308046B0AF4A39CB;PrivateBrowsingAUMID"="1"
+"C:_Scoop_apps_paint.net_current_paintdotnet.exe"="1"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8]
 "NewInstall"="1"
@@ -56,7 +62,7 @@ Windows Registry Editor Version 5.00
 "LastSeenOS2"="22631"
 "MenuMode"="6"
 "StandardStartMenu"="1"
-"LS"="1708541206"
+"LS"="1708550395"
 "StartedOnce"="1"
 "SetupLnk"="1"
 "SetupLnk11"="1"

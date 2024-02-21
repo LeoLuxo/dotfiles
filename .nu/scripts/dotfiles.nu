@@ -334,7 +334,7 @@ export def restart [] {
 	sleep 5sec
 	print $"(ansi green)Explorer restarted.(ansi reset)"
 	
-	sleep 1sec
+	sleep 3sec
 	reload --hard
 }
 
