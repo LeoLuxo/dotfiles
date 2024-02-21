@@ -2,7 +2,7 @@
 
 # Other
 export def "split lines" [] {
-	split row -r '(\n|\r)+'
+	split row --regex '[\n\r]+' | where not ($it | is-empty) 
 }
 
 export def "regutil remove" [
