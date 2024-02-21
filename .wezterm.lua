@@ -144,7 +144,12 @@ end)
 
 wezterm.on('gui-startup', function(cmd)
 	local tab, pane, window = mux.spawn_window(cmd or {})
-	window:gui_window():maximize()
+
+	-- wezterm.log_info(cmd.args)
+
+	if cmd == nil or cmd.args == {} then
+		window:gui_window():maximize()
+	end
 end)
 
 

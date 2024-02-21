@@ -17,6 +17,21 @@ export def "regutil remove" [
 }
 
 
+# Script running
+export def runscript [
+	file: string
+] {
+	print $"(ansi blue)Running script '(ansi white)($file)(ansi blue)'(ansi reset)\n(delimiter)\n"
+	let start_time = (date now)
+	
+	nu $file
+	
+	print $"\n(delimiter)\n(ansi green)Script took (ansi yellow)((date now) - $start_time)(ansi reset)"
+	print $"(ansi green)Press any key to close...(ansi reset)"
+	input listen --types [key] | null
+}
+
+
 # Hook and reload
 export def --env hook [
 	hook: string

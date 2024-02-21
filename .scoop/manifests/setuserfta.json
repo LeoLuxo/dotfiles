@@ -1,0 +1,7 @@
+{
+	"version": "1.7.1",
+	"url": "https://kolbi.cz/SetUserFTA.zip",
+	"bin": "SetUserFTA.exe",
+	"extract_dir": "SetUserFTA",
+	"hash": "81971091b680809e3e83205003c21e23de5640977dc54d7e54b8aaa2af2ea3f5"
+}

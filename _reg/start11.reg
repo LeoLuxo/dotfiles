@@ -56,7 +56,7 @@ Windows Registry Editor Version 5.00
 "LastSeenOS2"="22631"
 "MenuMode"="6"
 "StandardStartMenu"="1"
-"LS"="1708533451"
+"LS"="1708541206"
 "StartedOnce"="1"
 "SetupLnk"="1"
 "SetupLnk11"="1"
@@ -131,6 +131,7 @@ Windows Registry Editor Version 5.00
 "AlwaysHideText"="0"
 "IconsScale11"="1500"
 "UISCALE"="100"
+"ForceTouchTaskbar11Mode"="2"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8\Locations]
 "11"="Personal folder"
