@@ -36,7 +36,7 @@ export def --env reload [
 ] {
 	if $hard {
 		wezterm cli split-pane | null
-		sleep 50ms
+		sleep 200ms
 		wezterm cli kill-pane --pane-id $env.WEZTERM_PANE
 	} else {
 		print $"(ansi red)Reloading...(ansi reset)"

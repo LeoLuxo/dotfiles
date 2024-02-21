@@ -4,6 +4,8 @@ export-env {
 	$env.DOTFILES = ([$env.HOME, ".dotfiles"] | path join)
 }
 
+# Utils
+
 def confirmation-prompt [
 	prompt
 ] {
@@ -82,6 +84,9 @@ def download-check [] {
 	return true
 }
 
+
+
+# Commands
 
 
 # Download the dotfiles from the repo into $env.DOTFILES.
@@ -206,8 +211,15 @@ export def patch [
 
 
 
-
-export def apply [] {
+# Applies the dotfiles from .dotfiles.
+# This includes:
+# - Patching each file
+# - Applying registry keys from _reg
+# - Copying the folders from _copy to their respective destinations
+# - Copying other dotfiles to HOME
+export def apply [
+	--restart (-r)
+] {
 	let tmp = mktemp --directory --tmpdir
 	let exclude = [**/.git **/.gitignore]
 	
@@ -277,18 +289,47 @@ export def apply [] {
 	rm --recursive $tmp
 	
 	print $"(ansi green)Done!(ansi reset)"
+	
+	if $restart {
+		restart
+	}
 }
 
 
+# Force reload/restart of affected processes
+export def restart [] {
+	print $"(ansi yellow)Restarting...(ansi reset)"
+	
+	try {
+		let exit_code = (sudo shell -register -treat -silent | complete).exit_code
+		if $exit_code == 999 {
+			print $"(ansi red)Nilesoft-shell needs admin priviledge.(ansi reset)"
+		} else {
+			print $"(ansi green)Nilesoft-shell registered.(ansi reset)"
+		}
+	} catch {
+		print $"(ansi red)Nilesoft-shell not found.(ansi reset)"
+	}
+	
+	^taskkill /F /IM explorer.exe
+	^start explorer
+	sleep 5sec
+	print $"(ansi green)Explorer restarted.(ansi reset)"
+	
+	sleep 1sec
+	reload --hard
+}
 
+
+# Download, apply and optionally reload
 export def update [
 	--force (-f) # Force deletion of $env.DOTFILES and override potential prompt
+	--restart (-r)
 ] {
 	if (not ($force or (download-check))) {
 		return
 	}
 	
 	download --force
-	apply
-	reload --hard
+	apply --restart=$restart
 }
