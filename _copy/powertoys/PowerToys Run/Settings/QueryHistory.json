@@ -1,0 +1,20 @@
+{
+  "Items": [
+    {
+      "Query": "stea",
+      "ExecutedDateTime": "2024-02-13T17:31:33.0609875+01:00"
+    },
+    {
+      "Query": "gig",
+      "ExecutedDateTime": "2024-02-15T15:53:05.9027054+01:00"
+    },
+    {
+      "Query": "blen",
+      "ExecutedDateTime": "2024-02-15T16:44:49.6556688+01:00"
+    },
+    {
+      "Query": "pws",
+      "ExecutedDateTime": "2024-02-16T10:30:55.9638403+01:00"
+    }
+  ]
+}

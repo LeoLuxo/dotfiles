@@ -265,14 +265,15 @@ export def apply [
 			$destinations | each {|f|
 				cp --recursive ($e | path join "*") $f
 				
+				cd $e;
 				glob "**"
+				# | inspect
 				| path-count
-				| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied from (ansi yellow)($e | path relative-to $copy_path)(ansi blue) to (ansi purple)($f)(ansi blue).(ansi reset)"
+				| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied from (ansi yellow)($e | path relative-to $copy_path)(ansi blue) to (ansi purple)($f)(ansi blue) \((ansi white)($f | path expand)(ansi blue)\).(ansi reset)"
 			}
 		}
 		
 	}
-	
 	rm --recursive $copy_path
 	
 	
@@ -283,7 +284,7 @@ export def apply [
 		
 		glob "**"
 		| path-count
-		| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied to (ansi purple)HOME \(($env.HOME)\)(ansi blue).(ansi reset)"
+		| print $"(ansi blue)($in.files) files in ($in.dirs) folders copied to (ansi purple)~/(ansi blue) \((ansi white)($env.HOME | path expand)(ansi blue)\).(ansi reset)"
 	}
 	
 	rm --recursive $tmp

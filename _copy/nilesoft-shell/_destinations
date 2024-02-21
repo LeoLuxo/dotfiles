@@ -1,6 +1,4 @@
 ==(* OS=local windows *)==
-C:\\Scoop\\persist\\nilesoft-shell
-C:\\Scoop\\apps\\nilesoft-shell\\current
-==(* OS=wsl *)==
-null
+C:/Scoop/persist/nilesoft-shell
+C:/Scoop/apps/nilesoft-shell/current
 ==(* OS END *)==
