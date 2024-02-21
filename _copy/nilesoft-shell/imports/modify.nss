@@ -27,7 +27,7 @@ modify(mode=mode.multiple
 		id.disconnect_network_drive,
 		id.format,
 		id.eject,
-		id.give_access_to,
+		// id.give_access_to,
 		id.include_in_library,
 		id.print
 	)

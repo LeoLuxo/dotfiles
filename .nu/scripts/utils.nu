@@ -34,12 +34,11 @@ export def --env startup-hook [] {
 export def --env reload [
 	--hard (-h)
 ] {
+	print $"(ansi red)Reloading...(ansi reset)"
 	if $hard {
 		wezterm cli split-pane | null
-		sleep 200ms
-		wezterm cli kill-pane --pane-id $env.WEZTERM_PANE
+		hook pre_prompt $"sleep 500ms; wezterm cli kill-pane --pane-id ($env.WEZTERM_PANE)"
 	} else {
-		print $"(ansi red)Reloading...(ansi reset)"
 		$env.last-reload = (date now)
 		
 		let payload = [
