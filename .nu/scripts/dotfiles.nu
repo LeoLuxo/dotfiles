@@ -165,7 +165,7 @@ export def patch [
 	let include = '(?:' + $linewide_left + 'INCLUDE\s*(?<file>.*?)' + $linewide_right + '|(?<rest>.*))'
 	
 	open $file --raw
-	| into string
+	| decode utf-8
 	| str replace --all --multiline --regex '(?:\r\n|\n)' "\n"
 	# Multiline OS
 	| str replace --all --regex $os_keep "OS KEEP"
@@ -222,7 +222,6 @@ export def apply [
 ] {
 	let tmp = mktemp --directory --tmpdir
 	let exclude = [**/.git **/.gitignore]
-	let patch_exclude = [_reg/**]
 	
 	# Copy from .dotfiles to temp
 	cp --recursive ($env.DOTFILES | path join "*") $tmp
@@ -240,12 +239,14 @@ export def apply [
 	# Patch in temp
 	do {
 		cd $tmp;
-		glob "**/*" --no-dir --exclude $patch_exclude
+		glob "**/*" --no-dir
 		| where not ($it | is-empty)
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
 		| each {|e|
-			patch $e;
+			if (is-text-file $e) {
+				patch $e;
+			}
 			$e
 		}
 		| print $"(ansi blue)($in | length) files patched.(ansi reset)"
@@ -277,7 +278,7 @@ export def apply [
 		| each {|e| 
 			let destinations = do {
 				cd $e;
-				open "_destinations" | split lines | where not ($it | is-empty)
+				open "_destinations" | lines | where not ($it | is-empty)
 			}
 			rm ($e | path join "_destinations");
 			

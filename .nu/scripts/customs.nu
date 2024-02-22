@@ -37,7 +37,7 @@ export def "git yeet" [
 		git add .
 	}
 	git add -u
-	let changes = (git diff --staged --name-only | split lines | path basename)
+	let changes = (git diff --staged --name-only | lines | path basename)
 	git commit -am $"Yeet ($changes | str join ', ')"
 	git push
 }

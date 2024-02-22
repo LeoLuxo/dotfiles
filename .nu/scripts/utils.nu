@@ -1,10 +1,6 @@
 
 
 # Other
-export def "split lines" [] {
-	split row --regex '[\n\r]+' | where not ($it | is-empty) 
-}
-
 export def "regutil remove" [
 	key_section: string
 ] {
@@ -16,9 +12,28 @@ export def "regutil remove" [
 	) + '\].*?(?:\r\n){2}') ''
 }
 
-export def cmd-raw [] {
+export def cmd-raw [
+	--sudo
+] {
 	each {|c|
-		^cmd /c $c
+		do {
+			if $sudo {
+				^cmd /c sudo $c
+			} else {
+				^cmd /c $c
+			}
+		} | complete
+	}
+}
+
+export def is-text-file [
+	path: string
+] {
+	try {
+		open $path --raw | decode utf-8 | null;
+		return true
+	} catch {
+		return false
 	}
 }
 
