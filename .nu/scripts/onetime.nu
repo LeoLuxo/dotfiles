@@ -19,6 +19,7 @@ export def add-extension [
 		let $out = $in
 		if ($out | all {|e| $e.exit_code == 0}) {
 			print $"(ansi green)Done.(ansi reset)"
+			$out | each {get stdout | print --no-newline}
 		} else {
 			print $"(ansi red)"
 			$out | each {get stderr | print --no-newline}
