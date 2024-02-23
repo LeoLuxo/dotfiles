@@ -6,7 +6,7 @@ export def add-extension [
 	command: string
 	icon_path: string
 ] {
-	print $"(ansi blue)Adding extension (ansi yellow)($extension)(ansi blue). (ansi reset)" --no-newline
+	print $"(ansi blue)Adding extension (ansi yellow)($extension)(ansi blue).(ansi reset)"
 	
 	[
 		$'^reg add HKEY_CLASSES_ROOT\($extension)\ /t REG_SZ /d ($ftype_name) /f'
@@ -14,24 +14,7 @@ export def add-extension [
 		$'^ftype ($ftype_name)=($command)'
 		$'^assoc ($extension)=($ftype_name)'
 	]
-	# | each {|e| sudo nu --commands $"'($)'"}
 	| do {sudo nu --commands ...($in)}
-	# | cmd-raw --sudo
-	# | each {|e| do {sudo $e} | complete}
-	# | nu --commands ...($in)
-	# | complete
-	# | print
-	# | do {
-	# 	let $out = $in
-	# 	if ($out | all {|e| $e.exit_code == 0}) {
-	# 		print $"(ansi green)Done.(ansi reset)"
-	# 		$out | each {print}
-	# 	} else {
-	# 		print $"(ansi red)"
-	# 		$out | each {get stderr | print --no-newline}
-	# 		print $"(ansi reset)"
-	# 	}
-	# }
 }
 
 
