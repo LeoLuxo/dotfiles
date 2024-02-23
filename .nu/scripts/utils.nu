@@ -12,30 +12,6 @@ export def "regutil remove" [
 	) + '\].*?(?:\r\n){2}') ''
 }
 
-export def cmd-raw [
-	--sudo
-] {
-	each {|c|
-		do {
-			if $sudo {
-				^cmd /c sudo $c
-			} else {
-				^cmd /c $c
-			}
-		} | complete
-	}
-}
-
-export def is-text-file [
-	path: string
-] {
-	try {
-		open $path --raw | decode utf-8 | null;
-		return true
-	} catch {
-		return false
-	}
-}
 
 
 

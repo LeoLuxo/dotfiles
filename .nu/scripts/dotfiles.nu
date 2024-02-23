@@ -220,8 +220,10 @@ export def patch [
 export def apply [
 	--restart (-r)
 ] {
+	let exclude = ['**/.git' '**/.gitignore']
+	let exclude_patch = ['.ico']
+	
 	let tmp = mktemp --directory --tmpdir
-	let exclude = [**/.git **/.gitignore]
 	
 	# Copy from .dotfiles to temp
 	cp --recursive ($env.DOTFILES | path join "*") $tmp
@@ -244,10 +246,10 @@ export def apply [
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
 		| each {|e|
-			if (is-text-file $e) {
+			if ($exclude_patch | each {|f| $e | path basename | str ends-with $f} | all {|e| $e == false}) {
 				patch $e;
+				$e
 			}
-			$e
 		}
 		| print $"(ansi blue)($in | length) files patched.(ansi reset)"
 	}
