@@ -19,9 +19,5 @@ export def add-extension [
 
 
 export def extensions [] {
-	# gsudo cache on
-	
 	add-extension '.nu' 'nufile' 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config ~\.nu\env.nu --config ~\.nu\config.nu --commands "runscript %1"' '~/.nu/assets/terminal.ico'
-	
-	gsudo cache off
 }
