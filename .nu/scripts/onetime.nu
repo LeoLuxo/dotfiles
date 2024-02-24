@@ -23,7 +23,13 @@ def add-extension [
 			print $"(ansi green) Done.(ansi reset)"
 		} else {
 			print $"(ansi red) An error occured.(ansi reset)"
-			$res | each { |r| print --no-newline $"\t(ansi yellow)($r.command)\n\t(ansi white)($r.stdout)(ansi red)($r.stderr)(ansi reset)" }
+			$res | each { |r| 
+				if $r.exit_code == 0 {
+					print ($r | table)
+				} else {
+					print $"(ansi red)($r | table | ansi strip)(ansi reset)"
+				}
+			}
 		}
 	}
 	
