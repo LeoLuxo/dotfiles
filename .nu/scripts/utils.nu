@@ -34,7 +34,8 @@ export def runscript [
 		if $command == null {
 			nu $file
 		} else {
-			^$command $file 
+			let exec = $'($command) ($file)'
+			^$exec
 		}
 	}
 	
