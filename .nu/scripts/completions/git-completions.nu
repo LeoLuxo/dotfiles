@@ -38,7 +38,7 @@ def "nu-complete git remote branches with prefix" [] {
 def "nu-complete git remote branches nonlocal without prefix" [] {
 	# Get regex to strip remotes prefixes. It will look like `(origin|upstream)`
 	# for the two remotes `origin` and `upstream`.
-	let remotes_regex = (["(", ((nu-complete git remotes | each {|r| [$r, '/'] | str join}) | str join "|"), ")"] | str join)
+	let remotes_regex = (["(", ((nu-complete git remotes | each { |r| [$r, '/'] | str join}) | str join "|"), ")"] | str join)
 	let local_branches = (nu-complete git local branches)
 	^git branch -r | lines | parse -r (['^[\* ]+', $remotes_regex, '?(?P<branch>\S+)'] | flatten | str join) | get branch | uniq | where {|branch| $branch != "HEAD"} | where {|branch| $branch not-in $local_branches }
 }

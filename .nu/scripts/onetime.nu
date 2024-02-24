@@ -7,7 +7,7 @@ def add-extension [
 	--open_command: string
 	--edit_command: string
 ] {
-	print $"(ansi blue)Adding extension (ansi yellow)($extension)(ansi blue).(ansi reset)"
+	print $"(ansi blue)Adding extension (ansi yellow)($extension)(ansi blue).(ansi reset)" --no-newline
 	
 	[
 		$'assoc ($extension)=($ftype_name)'
@@ -16,8 +16,18 @@ def add-extension [
 	| append (if $icon != null {$'reg add HKCR\($ftype_name)\DefaultIcon\ /t REG_EXPAND_SZ /d "($icon | path expand | escape)" /f'})
 	| append (if $open_command != null {$'reg add HKCR\($ftype_name)\Shell\Open\Command\ /t REG_EXPAND_SZ /d "($open_command | escape)" /f'})
 	| append (if $edit_command != null {$'reg add HKCR\($ftype_name)\Shell\Edit\Command\ /t REG_EXPAND_SZ /d "($edit_command | escape)" /f'})
-	| each {|c| do {sudo nu --commands $c} | complete}
-	| print
+	| each { |c| do {sudo nu --commands $c} | complete | {command: $c, ...$in}}
+	| do {
+		let res = $in
+		if ($res | all { |r| $r.exit_code == 0}) {
+			print $"(ansi green) Done.(ansi reset)"
+		} else {
+			print $"(ansi red) An error occured.(ansi reset)"
+			$res | each { |r| print --no-newline $"\t(ansi yellow)($r.command)\n\t(ansi white)($r.stdout)(ansi red)($r.stderr)(ansi reset)" }
+		}
+	}
+	
+	return
 }
 
 

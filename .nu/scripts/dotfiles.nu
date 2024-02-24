@@ -46,7 +46,7 @@ def path-count [] {
 }
 
 def debug-path-type [] {
-	each {|e| print $"($e): ($e | path type)"}
+	each { |e| print $"($e): ($e | path type)"}
 }
 
 def get-os [] {
@@ -231,8 +231,8 @@ export def apply [
 	# Remove unwanted files
 	do {
 		cd $tmp;
-		$exclude | each {|e|
-			glob $e | each {|e|
+		$exclude | each { |e|
+			glob $e | each { |e|
 				rm --recursive $e
 			}
 		}
@@ -245,8 +245,8 @@ export def apply [
 		| where not ($it | is-empty)
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
-		| each {|e|
-			if ($exclude_patch | each {|f| $e | path basename | str ends-with $f} | all {|e| $e == false}) {
+		| each { |e|
+			if ($exclude_patch | each { |f| $e | path basename | str ends-with $f} | all {|e| $e == false}) {
 				patch $e;
 				$e
 			}
@@ -260,7 +260,7 @@ export def apply [
 		if ((get-os).name | str downcase) == "windows" {
 			cd $reg_path
 			glob "**/*.reg" --no-dir
-			| each {|e|
+			| each { |e|
 				do {^reg import $e} | complete |
 				(if $in.exit_code != 0 {
 					print $"(ansi red)Registry file '($e)' could not be applied.(ansi reset)"
@@ -277,14 +277,14 @@ export def apply [
 	do {
 		cd $copy_path
 		glob "*" --no-file
-		| each {|e| 
+		| each { |e| 
 			let destinations = do {
 				cd $e;
 				open "_destinations" | lines | where not ($it | is-empty)
 			}
 			rm ($e | path join "_destinations");
 			
-			$destinations | each {|f|
+			$destinations | each { |f|
 				cp --recursive ($e | path join "*") $f
 				
 				cd $e;
