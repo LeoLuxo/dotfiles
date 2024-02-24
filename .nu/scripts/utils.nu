@@ -24,13 +24,18 @@ export def escape [] {
 # Script running
 export def runscript [
 	file: string
+	--command: string
 ] {
 	print $"(ansi blue)Running script '(ansi white)($file)(ansi blue)'(ansi reset)\n(delimiter)\n"
 	let start_time = (date now)
 	
 	do {
 		cd ($file | path dirname)
-		nu $file
+		if $command == null {
+			nu $file
+		} else {
+			^$command $file 
+		}
 	}
 	
 	print $"\n(delimiter)\n(ansi green)Script took (ansi yellow)((date now) - $start_time)(ansi reset)"
