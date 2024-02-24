@@ -28,7 +28,7 @@ export def "setup extensions" [] {
 	--icon '~/.nu/assets/terminal.ico')
 	
 	(add-extension '.bat' 'batfile'
-	--open_command 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config "~\.nu\env.nu" --config "~\.nu\config.nu" --commands "runscript %1 --command \"cmd /c\""'
+	--open_command 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config "~\.nu\env.nu" --config "~\.nu\config.nu" --commands "runscript %1 cmd"'
 	--edit_command 'C:\Scoop\apps\vscode\current\Code.exe --profile "nu" "%1" %*'
 	--icon '~/.nu/assets/terminal.ico')
 	

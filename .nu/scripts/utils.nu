@@ -21,22 +21,27 @@ export def escape [] {
 
 
 
+
+
 # Script running
 export def runscript [
 	file: string
-	--command: string
+	using: string="nu"
 ] {
-	print $"(ansi blue)Running script '(ansi white)($file)(ansi blue)'(ansi reset)\n(delimiter)\n"
+	let runscript_table = {
+		nu:     {name:'nu'     icon:󰟆  run:{ |p| nu $p}}
+		cmd:    {name:'CMD'    icon:  run:{ |p| ^cmd /c $p}}
+		python: {name:'Python' icon:  run:{ |p| py $p}}
+	}
+
+	let runner = $runscript_table | get $using
+	
+	print $"(ansi blue)Running (ansi magenta)($runner.icon) (ansi yellow)($runner.name) (ansi blue)script '(ansi white)($file)(ansi blue)'(ansi reset)\n(delimiter)\n"
 	let start_time = (date now)
 	
 	do {
 		cd ($file | path dirname)
-		if $command == null {
-			nu $file
-		} else {
-			let exec = $'($command) ($file)'
-			^$exec
-		}
+		do $runner.run $file
 	}
 	
 	print $"\n(delimiter)\n(ansi green)Script took (ansi yellow)((date now) - $start_time)(ansi reset)"
