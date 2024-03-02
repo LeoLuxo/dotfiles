@@ -264,6 +264,7 @@ export def apply [
 				do {^reg import $e} | complete |
 				(if $in.exit_code != 0 {
 					print $"(ansi red)Registry file '($e)' could not be applied.(ansi reset)"
+					print $in.stderr
 				}; $in)
 			}
 			| where $it.exit_code == 0
@@ -322,7 +323,7 @@ export def restart [] {
 	print $"(ansi yellow)Restarting...(ansi reset)"
 	
 	try {
-		let exit_code = (sudo shell -register -treat -silent | complete).exit_code
+		let exit_code = (sudo shell -register -treat -restart | complete).exit_code
 		if $exit_code == 999 {
 			print $"(ansi red)Nilesoft-shell needs admin priviledge.(ansi reset)"
 		} else {

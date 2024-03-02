@@ -33,8 +33,8 @@
 					"foreground": "p:textd",
 					"powerline_symbol": "\ue0b4",
 					"style": "powerline",
-					"template": " \uf489 {{.Name}}\u2800",
-					"type": "shell"
+					"template": " \uf489 {{.Shell}}{{if .Root}} (ADMIN){{end}}\u2800",
+					"type": "text"
 				},
 				{
 					"background": "p:pink",

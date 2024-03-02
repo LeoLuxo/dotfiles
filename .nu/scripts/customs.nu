@@ -4,9 +4,10 @@ export def l [] {
 	ls | sort-by type name --natural --ignore-case | grid --color
 }
 
-export alias please = sudo --direct nu --commands ...(history | last 1 | get command | into string)
+export alias please = ^gsudo --direct nu --commands ...(history | last 1 | get command | into string)
 export alias pls = please
-export def "sudo nu" [] {^gsudo nu $env.NU_ARGS}
+export def "su" [] {^gsudo nu $env.NU_ARGS}
+export def "sudo" [...commands:string] {^gsudo --direct nu $env.NU_ARGS --commands ($commands | str join ' ')}
 
 export alias explorer = ^explorer .
 
@@ -21,6 +22,8 @@ export alias dfa = dotfiles apply
 export alias dfu = dotfiles update
 
 export def "dotfiles yeet" [--untracked (-u)] {cd $env.DOTFILES; git yeet --untracked=$untracked}
+
+export def "dotfiles code" [] {code ~/.dotfiles --profile "nu"}
 
 
 
