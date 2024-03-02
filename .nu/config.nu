@@ -759,8 +759,7 @@ use customs.nu *
 
 
 # Override default nu command
-const nu_args = "--env-config ~/.nu/env.nu --config ~/.nu/config.nu"
-alias nu = ^nu $nu_args
+alias nu = ^nu $env.NU_ARGS
 
 # Scoop
 # scoop shim add coq_makefile ([$env.COQBIN, "coq_makefile.exe"] | path join)

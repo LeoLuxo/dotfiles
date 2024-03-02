@@ -6,6 +6,7 @@ export def l [] {
 
 export alias please = sudo --direct nu --commands ...(history | last 1 | get command | into string)
 export alias pls = please
+export def "sudo nu" [] {^gsudo nu $env.NU_ARGS}
 
 export alias explorer = ^explorer .
 

@@ -31,6 +31,8 @@ $env.ENV_CONVERSIONS = {
 
 # Custom
 
+$env.NU_ARGS = "--env-config ~/.nu/env.nu --config ~/.nu/config.nu"
+
 # Homogeanize env to fix compat issues
 $env.PATH = $env.Path
 $env.HOME = $env.USERPROFILE

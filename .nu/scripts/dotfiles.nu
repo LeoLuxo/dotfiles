@@ -221,7 +221,7 @@ export def apply [
 	--restart (-r)
 ] {
 	let exclude = ['**/.git' '**/.gitignore']
-	let exclude_patch = ['.ico']
+	let exclude_patch = ['.ico' '.hiv']
 	
 	let tmp = mktemp --directory --tmpdir
 	

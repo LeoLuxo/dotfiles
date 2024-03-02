@@ -12,6 +12,20 @@ export def "regutil remove" [
 	) + '\].*?(?:\r\n){2}') ''
 }
 
+export def "regutil force-delete" [
+	key: string
+] {
+	let tmp = mktemp --tmpdir XXXXXXXXXX.hiv
+	
+	^reg add 'HKCU\emptyKey' /f
+	^reg save 'HKCU\emptyKey' $tmp /y
+	^reg delete 'HKCU\emptyKey' /f
+	
+	^reg restore $key $tmp
+	
+	rm -f $tmp
+}
+
 export def escape [] {
 	str replace --all `\` `\\`
 	| str replace --all `"` `\"`
