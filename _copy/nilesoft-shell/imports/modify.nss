@@ -16,7 +16,7 @@ modify(type="dir.back|drive.back" where=this.id==id.customize_this_folder pos=1 
 // 	pos="bottom" menu="Terminal")
 
 
-remove(find = '"Open in Visual Studio"')
+remove(find = '"Open with Visual Studio"')
 remove(find = '"Windows Terminal"')
 remove(find = '"open in terminal"')
 remove(find = '"open linux shell here"')

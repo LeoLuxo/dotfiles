@@ -15,6 +15,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\GroupContents11]
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\GroupContents11\$$APPS$$]
+"0"="windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel|-1|0|0|0|-1||"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\GroupContents11\$PINNEDDEF$]
 
@@ -22,6 +23,7 @@ Windows Registry Editor Version 5.00
 "0"="$PINNEDDEF$|Pinned|0|0|0|0|0|0|0|0||0||9999|0|0||-1|"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Groups11]
+"0"="$$APPS$$|Pinned|0|0|0|0|1|0|0|0|"
 "32"="$$APPS$$|New group|0|0|0|0|0|1|0|0||0||9999|0|0||-1|"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\PopularData]
@@ -45,6 +47,7 @@ Windows Registry Editor Version 5.00
 "blo"="steam://rungameid/960090"
 "firefox"="308046B0AF4A39CB;PrivateBrowsingAUMID"
 "paint"="C:\\Scoop\\apps\\paint.net\\current\\paintdotnet.exe"
+"settings"="windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\SResults]
 
@@ -53,8 +56,12 @@ Windows Registry Editor Version 5.00
 "steam://rungameid/960090"="1"
 "308046B0AF4A39CB;PrivateBrowsingAUMID"="1"
 "C:_Scoop_apps_paint.net_current_paintdotnet.exe"="1"
+"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel"="1"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8]
+"CreatedPinned10"="1"
+"CreatedPinned11"="1"
+"LockedIcons"="0"
 "NewInstall"="1"
 "Image"=""
 "TextLookupD"="1"
@@ -62,18 +69,15 @@ Windows Registry Editor Version 5.00
 "LastSeenOS2"="22631"
 "MenuMode"="6"
 "StandardStartMenu"="1"
-"LS"="1708550395"
+"LS"="1709493942"
 "StartedOnce"="1"
 "SetupLnk"="1"
 "SetupLnk11"="1"
 "UpgradedRightSide2"="1"
 "UpgradedRightSide"="1"
-"CreatedPinned10"="1"
 "lRight"="8"
 "FlushMetro3"="1"
 "FlushMetro4"="1"
-"CreatedPinned11"="1"
-"LockedIcons"="0"
 "AskedAboutStartButton2"="1"
 "NewInstallDone"="1"
 "SkinIndex"="5"
@@ -138,6 +142,7 @@ Windows Registry Editor Version 5.00
 "IconsScale11"="1500"
 "UISCALE"="100"
 "ForceTouchTaskbar11Mode"="2"
+"S11_ReserveOnePixel"="1"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8\Locations]
 "11"="Personal folder"
@@ -212,4 +217,14 @@ Windows Registry Editor Version 5.00
 "2"="5"
 "96"="6"
 "14"="7"
+
+[HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8\TaskbarAppIDCache]
+"C:\\Users\\neon\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\File Explorer.lnk"="Microsoft.Windows.Explorer"
+"C:\\Users\\neon\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\Firefox.lnk"="308046B0AF4A39CB"
+"C:\\Users\\neon\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\WezTerm - Wez's Terminal Emulator.lnk"="org.wezfurlong.wezterm"
+"C:\\Users\\neon\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\SpeedCrunch.lnk"="C:\\Scoop\\apps\\speedcrunch\\current\\speedcrunch.exe"
+"C:\\Users\\neon\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\Visual Studio Code (2).lnk"="Microsoft.VisualStudioCode"
+"C:\\Users\\neon\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\Discord.lnk"="com.squirrel.Discord.Discord"
+"C:\\Users\\neon\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\Playnite.lnk"="C:\\Scoop\\apps\\playnite\\current\\Playnite.DesktopApp.exe"
+"C:\\Users\\neon\\AppData\\Roaming\\Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\ImplicitAppShortcuts\\d356105fac5527ef\\Steam.lnk"="Valve.Steam.Client"
 

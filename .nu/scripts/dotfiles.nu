@@ -372,7 +372,7 @@ export def restart [] {
 
 
 
-def "export-start11" [] {
+export def "export-config start11" [] {
 	let path = "~/.dotfiles/_reg/start11.reg" | path expand
 	
 	^reg export HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8 $path /y
@@ -384,8 +384,8 @@ def "export-start11" [] {
 	| save $path --force --raw
 }
 
-export def export [] {
-	export-start11
+export def "export-config *" [] {
+	export-config start11
 }
 
 
