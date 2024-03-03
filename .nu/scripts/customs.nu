@@ -30,20 +30,8 @@ export alias cat = open
 export alias dfa = dotfiles apply
 export alias dfu = dotfiles update
 
-export def "dotfiles yeet" [
-	--untracked (-u)
-	--export (-e)
-] {
-	if $export {
-		dotfiles export
-	}
-	cd $env.DOTFILES
-	git yeet --untracked=$untracked
-}
-
-export def "dotfiles code" [] {
-	code ~/.dotfiles --profile "nu"
-}
+export def "dotfiles yeet" [--untracked (-u)] {cd $env.DOTFILES; git yeet --untracked=$untracked}
+export def "dotfiles code" [] {code ~/.dotfiles --profile "nu"}
 
 
 
