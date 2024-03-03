@@ -241,7 +241,7 @@ export def apply [
 	--restart (-r)
 ] {
 	let exclude = ['**/.git' '**/.gitignore']
-	let exclude_patch = ['.ico' '.hiv']
+	let exclude_patch = ['.ico' '.hiv' '.dll']
 	
 	let tmp = mktemp --directory --tmpdir
 	
@@ -382,6 +382,10 @@ export def "export-config start11" [] {
 	| regutil remove 'HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8\Taskbar'
 	| encode utf-8
 	| save $path --force --raw
+}
+
+export def "export-config paintdotnet" [] {
+	cp --recursive --update 'C:/Scoop/persist/paint.net/' '~/.dotfiles/_copy/'
 }
 
 export def "export-config *" [] {
