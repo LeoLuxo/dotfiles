@@ -4,6 +4,10 @@ export-env {
 	$env.DOTFILES = ([$env.HOME, ".dotfiles"] | path join)
 }
 
+
+
+
+
 # Utils
 
 def confirmation-prompt [
@@ -86,6 +90,12 @@ def download-check [] {
 
 
 
+
+
+
+
+
+
 # Commands
 
 
@@ -107,6 +117,11 @@ export def download [
 	
 	git clone --branch nu --single-branch https://github.com/LeoLuxo/dotfiles.git $env.DOTFILES
 }
+
+
+
+
+
 
 # Will patch a given file by preprocessing user and OS -related lines, as well as including extra files
 # 
@@ -208,6 +223,11 @@ export def patch [
 	| if $dry {$in} else {$in | save $file --force}
 	
 }
+
+
+
+
+
 
 
 
@@ -319,6 +339,11 @@ export def apply [
 }
 
 
+
+
+
+
+
 # Force reload/restart of affected processes
 export def restart [] {
 	print $"(ansi yellow)Restarting...(ansi reset)"
@@ -342,6 +367,29 @@ export def restart [] {
 	sleep 3sec
 	reload --hard
 }
+
+
+
+
+
+def "export-start11" [] {
+	let path = "~/.dotfiles/_reg/start11.reg" | path expand
+	
+	^reg export HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8 $path /y
+	
+	open $path --raw
+	| decode utf-8
+	| regutil remove 'HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8\Taskbar'
+	| encode utf-8
+	| save $path --force --raw
+}
+
+export def export [] {
+	export-start11
+}
+
+
+
 
 
 # Download, apply and optionally reload
