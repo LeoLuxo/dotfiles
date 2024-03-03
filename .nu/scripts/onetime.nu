@@ -38,15 +38,31 @@ def add-extension [
 
 
 export def "setup extensions" [] {
+	let $open_in_vscode = 'C:\Scoop\apps\vscode\current\Code.exe --profile "nu" "%1" %*'
+	let $open_wez_nu = 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config "~\.nu\env.nu" --config "~\.nu\config.nu" --commands '
+	
 	(add-extension '.nu'
-	--open_command 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config "~\.nu\env.nu" --config "~\.nu\config.nu" --commands "runscript %1"'
-	--edit_command 'C:\Scoop\apps\vscode\current\Code.exe --profile "nu" "%1" %*'
-	--icon '~/.nu/assets/terminal.ico' --reset)
+	--open_command ($open_wez_nu + '"runscript %1 nu"')
+	--edit_command $open_in_vscode
+	--icon '~/.nu/assets/terminal.ico'
+	--reset)
 	
 	(add-extension '.bat'
-	--open_command 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config "~\.nu\env.nu" --config "~\.nu\config.nu" --commands "runscript %1 cmd"'
-	--edit_command 'C:\Scoop\apps\vscode\current\Code.exe --profile "nu" "%1" %*'
+	--open_command ($open_wez_nu + '"runscript %1 cmd"')
+	--edit_command $open_in_vscode
 	--icon '~/.nu/assets/terminal.ico')
+	
+	(add-extension '.py'
+	--open_command ($open_wez_nu + '"runscript %1 python"')
+	--edit_command $open_in_vscode
+	--icon '~/.nu/assets/terminal_python.ico'
+	--reset)
+	
+	(add-extension '.nss'
+	--open_command $open_in_vscode
+	--edit_command $open_in_vscode
+	--icon '~/.nu/assets/nss.ico'
+	--reset)
 	
 	return
 }
