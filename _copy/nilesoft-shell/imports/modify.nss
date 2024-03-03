@@ -15,6 +15,9 @@ modify(type="dir.back|drive.back" where=this.id==id.customize_this_folder pos=1 
 // modify(where=str.equals(this.name, ["open in terminal", "open linux shell here"]) || this.id==id.open_powershell_window_here
 // 	pos="bottom" menu="Terminal")
 
+
+remove(find = '"Open in Visual Studio"')
+remove(find = '"Windows Terminal"')
 remove(find = '"open in terminal"')
 remove(find = '"open linux shell here"')
 remove(find = '"open in terminal"')
