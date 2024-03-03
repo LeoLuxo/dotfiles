@@ -286,6 +286,7 @@ export def apply [
 			rm ($e | path join "_destinations");
 			
 			$destinations | each { |f|
+				mkdir $f
 				cp --recursive ($e | path join "*") $f
 				
 				cd $e;

@@ -4,14 +4,23 @@ export def l [] {
 	ls | sort-by type name --natural --ignore-case | grid --color
 }
 
-export alias please = ^gsudo --direct nu --commands ...(history | last 1 | get command | into string)
+# ==(* OS=windows *)==
+export alias please = ^gsudo --direct nu --commands (history | last 1 | get command | into string)
 export alias pls = please
-export def "su" [] {^gsudo nu $env.NU_ARGS}
-export def "sudo" [...commands:string] {^gsudo --direct nu $env.NU_ARGS --commands ($commands | str join ' ')}
+
+export alias su = ^gsudo nu $env.NU_ARGS
+export def "sudo" [input?:string] {
+	let mut $input = $input
+	
+	if $input == null {
+		$input = (input)
+	}
+	
+	^gsudo --direct nu $env.NU_ARGS --commands $input
+}
 
 export alias explorer = ^explorer .
 
-# ==(* OS=windows *)==
 export alias cat = open
 # ==(* OS END *)==
 
