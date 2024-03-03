@@ -15,7 +15,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\GroupContents11]
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\GroupContents11\$$APPS$$]
-"0"="windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel|-1|0|0|0|-1||"
+"0"="windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel|-1|0|0|0|-1||1|0|0|-1"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\GroupContents11\$PINNEDDEF$]
 
@@ -129,7 +129,7 @@ Windows Registry Editor Version 5.00
 "RecentDocs10"="0"
 "NoSyncPins"="1"
 "S11_Hideusername"="1"
-"OpenAllProgs11"="1"
+"OpenAllProgs11"="0"
 "Win11HideRecentFolders"="1"
 "FilterIcons"="1"
 "NoAnims"="0"
@@ -143,6 +143,7 @@ Windows Registry Editor Version 5.00
 "UISCALE"="100"
 "ForceTouchTaskbar11Mode"="2"
 "S11_ReserveOnePixel"="1"
+"SubWin11Mode"="1"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8\Locations]
 "11"="Personal folder"
