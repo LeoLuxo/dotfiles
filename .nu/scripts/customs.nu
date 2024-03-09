@@ -4,6 +4,9 @@ export def l [] {
 	ls | sort-by type name --natural --ignore-case | grid --color
 }
 
+export alias py = ^python3
+
+
 # ==(* OS=windows *)==
 export alias please = ^gsudo --direct nu --commands (history | last 1 | get command | into string)
 export alias pls = please
@@ -29,18 +32,23 @@ export alias cat = open
 # Dotfiles
 export alias dfa = dotfiles apply
 export alias dfu = dotfiles update
+export alias dfe = dotfiles yeet
 
 export def "dotfiles yeet" [
 	--untracked (-u)
 	--export (-e)
 ] {
-	cd $env.DOTFILES
 	if $export {
 		dotfiles export-config *
 	}
+	
+	print $"(ansi purple)It's yeeting time.(ansi reset)"
+	cd $env.DOTFILES
 	git yeet --untracked=$untracked
 }
-export def "dotfiles code" [] {code ~/.dotfiles --profile "nu"}
+export def "dotfiles code" [] {
+	code ~/.dotfiles --profile "nu"
+}
 
 
 
