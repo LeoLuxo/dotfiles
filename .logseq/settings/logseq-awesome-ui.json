@@ -1,0 +1,23 @@
+{
+  "tabsHeading": null,
+  "tabsPosition": "Standard",
+  "tabsStyle": "Awesome",
+  "headerHeading": null,
+  "headerVariant": "Wide",
+  "navigationPosition": "Left",
+  "searchStyle": "Awesome",
+  "hideHomeButton": true,
+  "leftSidebarHeading": null,
+  "vaultButtonToBottom": true,
+  "compactSidebarMenu": true,
+  "menuCalendar": true,
+  "hideSidebarPageIcons": true,
+  "hideAddNewPage": true,
+  "rightSidebarHeading": null,
+  "hideRightSidebarToolbar": false,
+  "contentHeading": null,
+  "alwaysShowNewBlockBullet": false,
+  "otherHeading": null,
+  "killAnimations": false,
+  "disabled": false
+}
