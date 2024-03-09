@@ -43,7 +43,7 @@ def repo-has-changes [
 }
 
 def path-count [] {
-	reduce --fold {files:0, dirs:0} {|it, acc| match ($it | path type) {
+	reduce --fold {files:0, dirs:0} { |it, acc| match ($it | path type) {
 		"file" => {files: ($acc.files + 1), dirs: $acc.dirs},
 		"dir"  => {files: $acc.files, dirs: ($acc.dirs + 1)},
 	}}
@@ -206,7 +206,7 @@ export def patch [
 	| lines
 	| parse --regex $include
 	# | inspect
-	| each --keep-empty {|e|
+	| each --keep-empty { |e|
 		if ($e.file | is-empty) {
 			$e.rest
 		} else {
@@ -266,7 +266,7 @@ export def apply [
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
 		| each { |e|
-			if ($exclude_patch | each { |f| $e | path basename | str ends-with $f} | all {|e| $e == false}) {
+			if ($exclude_patch | each { |f| $e | path basename | str ends-with $f} | all { |e| $e == false}) {
 				patch $e;
 				$e
 			}
@@ -363,9 +363,6 @@ export def restart [] {
 	^start explorer
 	sleep 5sec
 	print $"(ansi green)Explorer restarted.(ansi reset)"
-	
-	sleep 3sec
-	reload --hard
 }
 
 

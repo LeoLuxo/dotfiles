@@ -42,18 +42,18 @@ export def "setup extensions" [] {
 	let $open_wez_nu = 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config "~\.nu\env.nu" --config "~\.nu\config.nu" --commands '
 	
 	(add-extension '.nu'
-	--open_command ($open_wez_nu + '"runscript %1 nu"')
+	--open_command ($open_wez_nu + '"runscript nu %1"')
 	--edit_command $open_in_vscode
 	--icon '~/.nu/assets/terminal.ico'
 	--reset)
 	
 	(add-extension '.bat'
-	--open_command ($open_wez_nu + '"runscript %1 cmd"')
+	--open_command ($open_wez_nu + '"runscript cmd %1"')
 	--edit_command $open_in_vscode
 	--icon '~/.nu/assets/terminal.ico')
 	
 	(add-extension '.py'
-	--open_command ($open_wez_nu + '"runscript %1 python"')
+	--open_command ($open_wez_nu + '"runscript python %1"')
 	--edit_command $open_in_vscode
 	--icon '~/.nu/assets/terminal_python.ico'
 	--reset)

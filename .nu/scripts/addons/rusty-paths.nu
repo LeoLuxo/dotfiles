@@ -6,7 +6,7 @@
 
 $env.config = ($env.config | update hooks.env_change.PWD {
 	append {
-		condition: {|_, after| ($after | path join 'Cargo.lock' | path exists) }
+		condition: { |_, after| ($after | path join 'Cargo.lock' | path exists) }
 		code: {
 			$env.PATH = (
 				$env.PATH

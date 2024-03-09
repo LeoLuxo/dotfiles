@@ -39,23 +39,26 @@ export def escape [] {
 
 # Script running
 export def runscript [
-	file: string
-	using: string="nu"
+	using: string
+	...file: string
 ] {
 	let runscript_table = {
 		nu:     {name:'nu'     icon:󰟆  run:{ |p| nu $p}}
 		cmd:    {name:'CMD'    icon:  run:{ |p| ^cmd /c $p}}
-		python: {name:'Python' icon:  run:{ |p| py $p}}
+		python: {name:'Python' icon:  run:{ |p| python3 $'($p)'}}
 	}
 
 	let runner = $runscript_table | get $using
+	let file = $file | str join ' '
 	
 	print $"(ansi blue)Running (ansi magenta)($runner.icon) (ansi yellow)($runner.name) (ansi blue)script '(ansi white)($file)(ansi blue)'(ansi reset)\n(delimiter)\n"
 	let start_time = (date now)
 	
 	do {
-		cd ($file | path dirname)
-		do $runner.run $file
+		try {
+			cd ($file | path dirname)
+			do $runner.run $file
+		}
 	}
 	
 	print $"\n(delimiter)\n(ansi green)Script took (ansi yellow)((date now) - $start_time)(ansi reset)"
@@ -74,7 +77,7 @@ export def --env hook [
 	let id = random uuid
 	let payload = [
 		$"($command) #($id)",
-		$"$env.config.hooks = \($env.config.hooks | update ($hook) {filter {|x| $\"\($x)\" !~ '#($id)'}})"
+		$"$env.config.hooks = \($env.config.hooks | update ($hook) {filter { |x| $\"\($x)\" !~ '#($id)'}})"
 	]
 	
 	$env.config.hooks = ($env.config.hooks | update $hook {

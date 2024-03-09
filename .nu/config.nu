@@ -17,7 +17,7 @@ let dark_theme = {
 	empty: blue
 	# Closures can be used to choose colors for specific values.
 	# The value (in this case, a bool) is piped into the closure.
-	# eg) {|| if $in { 'light_cyan' } else { 'light_gray' } }
+	# eg) { || if $in { 'light_cyan' } else { 'light_gray' } }
 	bool: light_cyan
 	int: white
 	filesize: cyan
@@ -81,7 +81,7 @@ let light_theme = {
 	empty: blue
 	# Closures can be used to choose colors for specific values.
 	# The value (in this case, a bool) is piped into the closure.
-	# eg) {|| if $in { 'dark_cyan' } else { 'dark_gray' } }
+	# eg) { || if $in { 'dark_cyan' } else { 'dark_gray' } }
 	bool: dark_cyan
 	int: dark_gray
 	filesize: cyan_bold
@@ -138,7 +138,7 @@ let light_theme = {
 }
 
 # External completer example
-# let carapace_completer = {|spans|
+# let carapace_completer = { |spans|
 #     carapace $spans.0 nushell $spans | from json
 # }
 
@@ -242,7 +242,7 @@ $env.config = {
 		pre_prompt: [{ null }] # run before the prompt is shown
 		pre_execution: [{ null }] # run before the repl input is run
 		env_change: {
-			PWD: [{|before, after| null }] # run if the PWD environment is different since the last repl input
+			PWD: [{ |before, after| null }] # run if the PWD environment is different since the last repl input
 		}
 		# display_output: "if (term size).columns >= 100 { table -e } else { table }" # run to display the output of a pipeline
 		display_output: "table" # run to display the output of a pipeline
