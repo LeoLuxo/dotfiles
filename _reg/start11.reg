@@ -202,6 +202,7 @@ CwAAAAABAAAAAAAAAAAAAAAAAA==
 "logse"="C:\\Scoop\\apps\\logseq\\current\\Logseq.exe"
 "voice"="{7C5A40EF-A0FB-4BFC-874A-C0F2E0B9FA8E}\\VB\\Voicemeeter\\voicemeeter8.exe"
 "lo"="C:\\Scoop\\apps\\logseq\\current\\Logseq.exe"
+"win"="C:\\Scoop\\apps\\winscp\\current\\WinSCP.exe"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\SResults]
 
@@ -225,6 +226,7 @@ CwAAAAABAAAAAAAAAAAAAAAAAA==
 "C:_Scoop_apps_obsidian_current_Obsidian.exe"="2"
 "com.squirrel.Discord.Discord"="1"
 "{7C5A40EF-A0FB-4BFC-874A-C0F2E0B9FA8E}_VB_Voicemeeter_voicemeeter8.exe"="1"
+"C:_Scoop_apps_winscp_current_WinSCP.exe"="1"
 
 [HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8]
 "CreatedPinned10"="1"

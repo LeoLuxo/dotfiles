@@ -241,7 +241,7 @@ export def apply [
 	--restart (-r)
 ] {
 	let exclude = ['**/.git' '**/.gitignore']
-	let exclude_patch = ['.ico' '.hiv' '.dll']
+	let include_patch = ['.nu' '.txt' '.gitconfig' '.toml' '.lua' '.json' '.reg' '.nss' '_destinations']
 	
 	let tmp = mktemp --directory --tmpdir
 	
@@ -266,7 +266,7 @@ export def apply [
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
 		| par-each { |e|
-			if ($exclude_patch | each { |f| $e | path basename | str ends-with $f} | all { |e| $e == false}) {
+			if ($include_patch | each { |f| $e | path basename | str ends-with $f} | any { |e| $e == true}) {
 				patch $e;
 				$e
 			}
