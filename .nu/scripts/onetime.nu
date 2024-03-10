@@ -36,10 +36,21 @@ def add-extension [
 	return
 }
 
+const open_in_vscode = 'C:\Scoop\apps\vscode\current\Code.exe --profile "nu" "%1" %*'
+const open_wez_nu = 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config "~\.nu\env.nu" --config "~\.nu\config.nu" --commands '
+
+def text-file-extension [
+	extension: string
+	--icon='~/.nu/assets/vscode.ico': string
+] {
+	(add-extension $extension
+	--open_command $open_in_vscode
+	--edit_command $open_in_vscode
+	--icon $icon
+	--reset)
+}
 
 export def "setup extensions" [] {
-	let $open_in_vscode = 'C:\Scoop\apps\vscode\current\Code.exe --profile "nu" "%1" %*'
-	let $open_wez_nu = 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu --env-config "~\.nu\env.nu" --config "~\.nu\config.nu" --commands '
 	
 	(add-extension '.nu'
 	--open_command ($open_wez_nu + '"runscript nu %1"')
@@ -58,11 +69,9 @@ export def "setup extensions" [] {
 	--icon '~/.nu/assets/terminal_python.ico'
 	--reset)
 	
-	(add-extension '.nss'
-	--open_command $open_in_vscode
-	--edit_command $open_in_vscode
-	--icon '~/.nu/assets/nss.ico'
-	--reset)
+	text-file-extension '.nss' --icon '~/.nu/assets/nss.ico'
+	text-file-extension '.edn'
+	text-file-extension '.xml'
 	
 	return
 }
