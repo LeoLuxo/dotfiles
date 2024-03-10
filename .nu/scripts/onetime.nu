@@ -41,7 +41,7 @@ const open_wez_nu = 'C:\Scoop\apps\wezterm\current\wezterm-gui.exe start -- nu -
 
 def text-file-extension [
 	extension: string
-	--icon='~/.nu/assets/vscode.ico': string
+	--icon='~/.nu/assets/ico/vscode.ico': string
 ] {
 	(add-extension $extension
 	--open_command $open_in_vscode
@@ -55,27 +55,27 @@ export def "setup extensions" [] {
 	(add-extension '.nu'
 	--open_command ($open_wez_nu + '"runscript nu %1"')
 	--edit_command $open_in_vscode
-	--icon '~/.nu/assets/terminal.ico'
+	--icon '~/.nu/assets/ico/terminal.ico'
 	--reset)
 	
 	(add-extension '.bat'
 	--open_command ($open_wez_nu + '"runscript cmd %1"')
 	--edit_command $open_in_vscode
-	--icon '~/.nu/assets/terminal.ico')
+	--icon '~/.nu/assets/ico/terminal.ico')
 	
 	(add-extension '.py'
 	--open_command ($open_wez_nu + '"runscript python %1"')
 	--edit_command $open_in_vscode
-	--icon '~/.nu/assets/terminal_python.ico'
+	--icon '~/.nu/assets/ico/terminal_python.ico'
 	--reset)
 	
 	text-file-extension '.edn'
 	text-file-extension '.xml'
-	text-file-extension '.nss'  --icon '~/.nu/assets/nss.ico'
-	text-file-extension '.html' --icon '~/.nu/assets/html.ico'
-	text-file-extension '.htm'  --icon '~/.nu/assets/html.ico'
-	text-file-extension '.css'  --icon '~/.nu/assets/css.ico'
-	text-file-extension '.js'   --icon '~/.nu/assets/javascript.ico'
+	text-file-extension '.nss'  --icon '~/.nu/assets/ico/nss.ico'
+	text-file-extension '.html' --icon '~/.nu/assets/ico/html.ico'
+	text-file-extension '.htm'  --icon '~/.nu/assets/ico/html.ico'
+	text-file-extension '.css'  --icon '~/.nu/assets/ico/css.ico'
+	text-file-extension '.js'   --icon '~/.nu/assets/ico/javascript.ico'
 	
 	return
 }

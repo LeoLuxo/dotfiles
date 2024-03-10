@@ -401,7 +401,7 @@ export def "export-config powertoys" [] {
 }
 
 export def "export-config *" [] {
-	print $"(ansi blue)Exporting all configs.(ansi reset)"
+	print $"(ansi purple)Exporting all configs.(ansi reset)"
 	
 	export-config start11
 	export-config logseq

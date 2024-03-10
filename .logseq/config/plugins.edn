@@ -3,4 +3,6 @@
  :logseq-awesome-styler {:version "v3.7.1", :repo "yoyurec/logseq-awesome-styler", :effect true, :theme false}
  :logseq-excalidraw {:version "v1.5.1", :repo "haydenull/logseq-plugin-excalidraw", :effect true, :theme false}
  :logseq-formula-ocr-plugin {:version "v0.0.4", :repo "olmobaldoni/logseq-formula-ocr-plugin", :effect true, :theme false}
- :logseq-tabs {:version "v1.19.4", :repo "pengx17/logseq-plugin-tabs", :effect true, :theme false}}
+ :logseq-tabs {:version "v1.19.4", :repo "pengx17/logseq-plugin-tabs", :effect true, :theme false}
+ :logseq-copy-code-plugin {:version "v.1.2.0", :repo "vyleung/logseq-copy-code-plugin", :effect true, :theme false}
+ :logseq-block-to-page {:version "v1.3.0", :repo "hyrijk/logseq-plugin-block-to-page", :effect false, :theme false}}
