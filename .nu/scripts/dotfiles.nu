@@ -246,7 +246,7 @@ export def apply [
 	let tmp = mktemp --directory --tmpdir
 	
 	# Copy from .dotfiles to temp
-	cp --recursive ($env.DOTFILES | path join "*") $tmp
+	cp --recursive --progress ($env.DOTFILES | path join "*") $tmp
 	
 	# Remove unwanted files
 	do {
@@ -387,8 +387,17 @@ export def "export-config start11" [] {
 export def "export-config logseq" [] {
 	print $"(ansi blue)Exporting config for (ansi yellow)logseq(ansi blue).(ansi reset)"
 	
-	cp --recursive --update '~/.logseq/' '~/.dotfiles/'
+	cp --recursive --update --progress '~/.logseq/' '~/.dotfiles/'
 	rm --recursive '~/.dotfiles/.logseq/graphs'
+	rm --recursive '~/.dotfiles/.logseq/plugins'
+}
+
+export def "export-config powertoys" [] {
+	print $"(ansi blue)Exporting config for (ansi yellow)powertoys(ansi blue).(ansi reset)"
+	
+	cp --recursive --update --progress '~/AppData/Local/Microsoft/PowerToys/*' '~/.dotfiles/_copy/powertoys'
+	rm --recursive --force '~/.dotfiles/_copy/powertoys/**/*Logs*/'
+	rm --force '~/.dotfiles/_copy/powertoys/**/*log*'
 }
 
 export def "export-config *" [] {
@@ -396,6 +405,7 @@ export def "export-config *" [] {
 	
 	export-config start11
 	export-config logseq
+	export-config powertoys
 }
 
 

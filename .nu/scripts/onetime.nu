@@ -69,9 +69,13 @@ export def "setup extensions" [] {
 	--icon '~/.nu/assets/terminal_python.ico'
 	--reset)
 	
-	text-file-extension '.nss' --icon '~/.nu/assets/nss.ico'
 	text-file-extension '.edn'
 	text-file-extension '.xml'
+	text-file-extension '.nss'  --icon '~/.nu/assets/nss.ico'
+	text-file-extension '.html' --icon '~/.nu/assets/html.ico'
+	text-file-extension '.htm'  --icon '~/.nu/assets/html.ico'
+	text-file-extension '.css'  --icon '~/.nu/assets/css.ico'
+	text-file-extension '.js'   --icon '~/.nu/assets/javascript.ico'
 	
 	return
 }
