@@ -265,7 +265,7 @@ export def apply [
 		| where not ($it | is-empty)
 		| where ($it | path type) == "file"
 		| where not ($it | str ends-with "dotfiles.nu")
-		| each { |e|
+		| par-each { |e|
 			if ($exclude_patch | each { |f| $e | path basename | str ends-with $f} | all { |e| $e == false}) {
 				patch $e;
 				$e
