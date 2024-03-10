@@ -43,30 +43,41 @@ export def runscript [
 	...file: string
 ] {
 	let runscript_table = {
-		nu:     {name:'nu'     icon:󰟆  run:{ |p| nu $p}}
+		nu:     {name:'nu'     icon:󰟆  run:{ |p| nu $env.NU_ARGS $p}}
 		cmd:    {name:'CMD'    icon:  run:{ |p| ^cmd /c $p}}
-		python: {name:'Python' icon:  run:{ |p| python3 $'($p)'}}
+		python: {name:'Python' icon:  run:{ |p| ^python3 $'($p)'}}
 	}
 
 	let runner = $runscript_table | get $using
 	let file = $file | str join ' '
 	
-	print $"(ansi blue)Running (ansi magenta)($runner.icon) (ansi yellow)($runner.name) (ansi blue)script '(ansi white)($file)(ansi blue)'(ansi reset)\n(delimiter)\n"
-	let start_time = (date now)
-	
-	do {
+	loop {
+		print $"(ansi blue)Running (ansi magenta)($runner.icon) (ansi yellow)($runner.name) (ansi blue)script '(ansi white)($file)(ansi blue)'(ansi reset)\n(delimiter)\n"
+		let start_time = (date now)
+		
 		try {
 			cd ($file | path dirname)
 			do $runner.run $file
+			
+			print $"\n(delimiter)\n(ansi green)Script took (ansi yellow)((date now) - $start_time)(ansi reset)"
+			print $"(ansi green)Press (ansi yellow)[ENTER](ansi green) to close...(ansi reset)"
+		} catch {
+			print $"\n(delimiter)\n(ansi red)Script took (ansi yellow)((date now) - $start_time)(ansi red) and closed abruptly(ansi reset)"
+			print $"(ansi red)Press (ansi yellow)[R](ansi red) to retry or (ansi yellow)[ENTER](ansi red) to close...(ansi reset)"
+		}
+		
+		loop {
+			let key = input listen --types [key]
+			
+			if $key.code == 'r' {
+				clear
+				break
+			} else if $key.code == 'enter' {
+				return
+			}
 		}
 	}
-	
-	print $"\n(delimiter)\n(ansi green)Script took (ansi yellow)((date now) - $start_time)(ansi reset)"
-	print $"(ansi green)Press any key to close...(ansi reset)"
-	input listen --types [key] | null
 }
-
-
 
 # Hook and reload
 export def --env hook [
