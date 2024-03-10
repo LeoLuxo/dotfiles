@@ -1,9 +1,16 @@
 {
   "theme": null,
   "themes": {
-    "mode": "light",
+    "mode": "dark",
     "light": null,
-    "dark": null
+    "dark": {
+      "name": "Awesome Styler Dark",
+      "url": "lsp://logseq.io/logseq-awesome-styler/dist/assets/awesomeStylerExt.css",
+      "description": "Dark customizable theme theme with extra stuff",
+      "mode": "dark",
+      "pid": "logseq-awesome-styler",
+      "selected": false
+    }
   },
   "externals": []
 }
