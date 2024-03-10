@@ -379,6 +379,7 @@ export def "export-config start11" [] {
 	open $path --raw
 	| decode utf-8
 	| regutil remove 'HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\Start8\Taskbar'
+	| regutil remove 'HKEY_CURRENT_USER\SOFTWARE\Stardock\Start8\Start8.ini\PopularData'
 	| encode utf-8
 	| save $path --force --raw
 }

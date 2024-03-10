@@ -9,7 +9,7 @@ export def "regutil remove" [
 		| str replace --all '\' '\\'
 		| str replace --all '.' '\.'
 		| str replace --all '$' '\$'
-	) + '\].*?(?:\r\n){2}') ''
+	) + '\].*?(?:\r\n){2}\[') '['
 }
 
 export def "regutil force-delete" [
